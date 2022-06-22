@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotspot</title>
+</head>
+<body>
+<h1>Hotspot table</h1>
+<br><br>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Category</th>
+            <th>Search</th>
+        </tr>
+    </thead>
+        {% for hotspot_list in hotspot %}
+        <tbody>
+            <tr>
+                <td>{{ hotspot_list.Name }}</td>
+                <td>{{ hotspot_list.Address }}</td>
+                <td>{{ hotspot_list.Category }}</td>
+                <td>{{ hotspot_list.Search }}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+</table>
+</body>
+</html>
