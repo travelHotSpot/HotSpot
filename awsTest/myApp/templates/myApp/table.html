@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Showing table</title>
+</head>
+<body>
+<h1>Hotpost</h1>
+<hr>
+<table>
+    <thead>
+        <tr>
+            <th>이름</th>
+            <th>주소</th>
+            <th>분류</th>
+            <th>검색횟수</th>
+        </tr>
+    </thead>
+    {% for row in hotspot %}
+    <tr>
+        <td>{{ row.Name }}</td>
+        <td>{{ row.Address }}</td>
+        <td>{{ row.Category }}</td>
+        <td>{{ row.Search }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
