@@ -8,6 +8,7 @@ import time
 
 from chromedriver import generate_chrome
 
+from selenium.webdriver.common.by import By
 
 PROJECT_DIR = str(os.path.dirname(os.path.abspath(__file__)))
 DOWNLOAD_DIR = f'{PROJECT_DIR}\\download\\'
@@ -35,27 +36,28 @@ chrome = generate_chrome(
 
 url = 'https://www.mcst.go.kr/kor/s_culture/festival/festivalList.jsp'
 chrome.get(url)
-elm = chrome.find_element_by_xpath('/html/body/div[1]/div[3]/div/div[2]/div[1]/ul/li[2]/form/a/span')
+elm = chrome.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/div[2]/div[1]/ul/li[2]/form/a/span')
 elm.click()
 time.sleep(1)
+
 
 url = 'https://datalab.visitkorea.or.kr/datalab/portal/mbr/getMbrLoginForm.do'
 chrome.get(url)
 time.sleep(3)
 elm = chrome.find_element_by_id('mbrId')
-elm.send_keys('1dolcong@gmail.com')
+elm.send_keys('1dolcong@naver.com')
 elm = chrome.find_element_by_id('mbrPw')
-elm.send_keys('shltls12!')
+elm.send_keys('hotspot123!')
 elm.send_keys(Keys.RETURN)
 time.sleep(3)
 
-region = chrome.find_element_by_xpath('/html/body/div[2]/div[2]/div[7]/div[1]/ul/li[1]/div/a').click()
+region = chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[7]/div[1]/ul/li[1]/div/a').click()
 time.sleep(2)
-regiondown = chrome.find_element_by_xpath('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[4]/div[2]/a[4]').click()
+regiondown = chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[4]/div[2]/a[4]').click()
 time.sleep(3)
-surveyclick = chrome.find_element_by_xpath('/html/body/div[2]/div[2]/div[8]/div[2]/div[2]/ul/li[5]/label').click()
+surveyclick = chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[8]/div[2]/div[2]/ul/li[5]/label').click()
 time.sleep(1)
-surveysubmit =chrome.find_element_by_xpath('/html/body/div[2]/div[2]/div[8]/div[2]/div[3]/a[1]').click()
+surveysubmit =chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[8]/div[2]/div[3]/a[1]').click()
 time.sleep(100)
 
 # 쿠키 사용
@@ -68,8 +70,8 @@ time.sleep(100)
 # time.sleep(3)
 
 
-menu = chrome.find_element_by_xpath('/html/body/div[2]/header/div[2]/div/nav/ul/li[4]/a')
-submenu = chrome.find_element_by_xpath('/html/body/div[2]/header/div[2]/div/nav/ul/li[4]/a')
+menu = chrome.find_element(By.XPATH, '/html/body/div[2]/header/div[2]/div/nav/ul/li[4]/a')
+submenu = chrome.find_element(By.XPATH, '/html/body/div[2]/header/div[2]/div/nav/ul/li[4]/a')
 
 time.sleep(10)
 

@@ -1,9 +1,9 @@
 # chromedriver.py
 
-import pickle
+
 import atexit
 from selenium import webdriver
-
+from selenium.webdriver.common.by import By
 
 def all_cookies(url):
     chrome_options = webdriver.ChromeOptions()
@@ -70,3 +70,4 @@ def generate_chrome(
     atexit.register(_close_chrome(chrome))  # 스크립트 종료전 무조건 크롬 종료
 
     return chrome
+
