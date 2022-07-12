@@ -2,24 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1f9358b-84d5-47a8-8d76-325cfcf3cf99" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/bg-masthead.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/fullsize/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/fullsize/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/fullsize/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/fullsize/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/fullsize/5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/fullsize/6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/thumbnails/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/thumbnails/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/thumbnails/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/thumbnails/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/thumbnails/5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/assets/img/portfolio/thumbnails/6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/css/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/js/scripts.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/templates/myApp/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/myApp/templates/myApp/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/templates/myApp/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +32,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/DBProject_201724575 (1)" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RecentsManager">
@@ -144,16 +127,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>8</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
