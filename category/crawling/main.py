@@ -40,64 +40,22 @@ def festival():
     time.sleep(random.randint(6, 10))
     chrome.close()
 
-def region(Xpath,column, row, lastlength, chrome):
-    for i in range(1, row+1):
-        if i == row:
-            for j in range(1, lastlength+1):
-                chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[1]/a').click()  # 지역 선택창 클릭
-                time.sleep(random.randint(2, 3))
-                elm = chrome.find_element(By.XPATH, Xpath)
-                regionname = elm.text
-                elm.click()  #지역 선택
-                time.sleep(random.randint(2, 3))
-                div = i
-                a = j
-                xpath = '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[2]/div/div['+str(div)+']/a['+str(a)+']'
-
-                elm = chrome.find_element(By.XPATH, xpath)  # 지역별 로고 클릭
-                cityname = elm.text
-                elm.click()
-                print(regionname + cityname)
-                chrome.find_element(By.XPATH,'/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[3]/div/a[2]').click()  # 확인 창 클릭
-                time.sleep(random.randint(2, 3))
-                chrome.find_element(By.XPATH,  '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[6]/div[9]/div[1]/div[1]/ul/li[3]/a').click()  # 인기 관광지 전체 선택
-                chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[6]/div[9]/div[1]/div[1]/div[2]/a').click()  # 인기 관광지 세부 선택
-                time.sleep(random.randint(2, 3))
-                chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[6]/div[9]/div[1]/div[1]/div[2]/ul/li[2]/p/a').click()  # 데이터 다운로드 클릭
-                time.sleep(random.randint(2, 3))
-                chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[8]/div[2]/div[3]/a[1]').click()  # 제출 클릭
-                time.sleep(random.randint(3, 5))
-        else:
-            for j in range(1, column+1):
-                chrome.find_element(By.XPATH,
-                                    '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[1]/a').click()  # 지역 선택창 클릭
-                time.sleep(random.randint(2, 3))
-                elm = chrome.find_element(By.XPATH, Xpath)
-                regionname = elm.text
-                elm.click()  # 지역 선택
-                time.sleep(random.randint(2, 3))
-                div = i
-                a = j
-                xpath = '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[2]/div/div[' + str(
-                    div) + ']/a[' + str(a) + ']'
-
-                elm = chrome.find_element(By.XPATH, xpath)  # 지역별 로고 클릭
-                cityname = elm.text
-                elm.click()
-                print(regionname + cityname)
-                chrome.find_element(By.XPATH,
-                                    '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[3]/div/a[2]').click()  # 확인 창 클릭
-                time.sleep(random.randint(2, 3))
-                chrome.find_element(By.XPATH,
-                                    '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[6]/div[9]/div[1]/div[1]/ul/li[3]/a').click()  # 인기 관광지 전체 선택
-                chrome.find_element(By.XPATH,
-                                    '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[6]/div[9]/div[1]/div[1]/div[2]/a').click()  # 인기 관광지 세부 선택
-                time.sleep(random.randint(2, 3))
-                chrome.find_element(By.XPATH,
-                                    '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[6]/div[9]/div[1]/div[1]/div[2]/ul/li[2]/p/a').click()  # 데이터 다운로드 클릭
-                time.sleep(random.randint(2, 3))
-                chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[8]/div[2]/div[3]/a[1]').click()  # 제출 클릭
-                time.sleep(random.randint(3, 5))
+def region(Xpath, chrome):
+    chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[1]/a').click()  # 지역 선택창 클릭
+    time.sleep(random.randint(2, 3))
+    elm = chrome.find_element(By.XPATH, Xpath)
+    regionname = elm.text
+    elm.click()
+    print(regionname)
+    chrome.find_element(By.XPATH,'/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[3]/div/a[2]').click()  # 확인 창 클릭
+    time.sleep(random.randint(2, 3))
+    chrome.find_element(By.XPATH,  '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[6]/div[9]/div[1]/div[1]/ul/li[3]/a').click()  # 인기 관광지 전체 선택
+    chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[6]/div[9]/div[1]/div[1]/div[2]/a').click()  # 인기 관광지 세부 선택
+    time.sleep(random.randint(2, 3))
+    chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[6]/div[9]/div[1]/div[1]/div[2]/ul/li[2]/p/a').click()  # 데이터 다운로드 클릭
+    time.sleep(random.randint(2, 3))
+    chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[8]/div[2]/div[3]/a[1]').click()  # 제출 클릭
+    time.sleep(random.randint(3, 5))
 
 def popularTouristspot():
     DOWNLOAD_DIR = f'{PROJECT_DIR}\\populartourspot\\'
@@ -119,23 +77,23 @@ def popularTouristspot():
     time.sleep(random.randint(2, 3))
     chrome.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[7]/div[1]/ul/li[1]/div/a').click() #지역별 로고 클릭
     time.sleep(random.randint(2, 3))
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[1]', 9, 3, 7, chrome) #서울
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[2]', 9, 2, 7, chrome) #부산
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[3]', 8, 1, 8, chrome) #대구
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[4]', 9, 2, 1, chrome) #인천
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[5]', 5, 1, 5, chrome) #광주
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[6]', 5, 1, 5, chrome) #대전
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[7]', 5, 1, 5, chrome) #울산
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[8]', 1, 1, 1, chrome) #세종
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[9]', 14, 3, 14, chrome) #경기
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[1]', 9, 2, 9, chrome) #강원
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[2]', 9, 2, 5, chrome) #충청북도
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[3]', 9, 2, 7, chrome) #충청남도
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[4]', 9, 2, 6, chrome) #전라북도
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[5]', 9, 3, 4, chrome) #전라남도
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[6]', 9, 3, 6, chrome) #경상북도
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[7]', 9, 3, 4, chrome) #경상남도
-    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[8]', 2, 1, 2, chrome) #제주
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[1]', chrome) #서울
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[2]', chrome) #부산
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[3]', chrome) #대구
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[4]', chrome) #인천
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[5]', chrome) #광주
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[6]', chrome) #대전
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[7]', chrome) #울산
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[8]', chrome) #세종
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[1]/a[9]', chrome) #경기
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[1]', chrome) #강원
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[2]', chrome) #충청북도
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[3]', chrome) #충청남도
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[4]', chrome) #전라북도
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[5]', chrome) #전라남도
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[6]', chrome) #경상북도
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[7]', chrome) #경상남도
+    region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[8]', chrome) #제주
 
 def picture():
     DOWNLOAD_DIR = f'{PROJECT_DIR}\\picture\\'
