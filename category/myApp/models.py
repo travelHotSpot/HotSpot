@@ -10,3 +10,45 @@ class Hotspot(models.Model):
     class Meta:
         managed = False
         db_table = 'Hotspot'
+
+
+class Festival(models.Model):
+    festival_id = models.BigAutoField(primary_key=True)
+    festival_name = models.CharField(max_length=255, db_collation='utf8mb4_0900_ai_ci')
+    latitude = models.DecimalField(max_digits=12, decimal_places=10, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=13, decimal_places=10, blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    image_url = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'festival'
+
+
+class FestivalImg(models.Model):
+    festival_img_id = models.BigAutoField(primary_key=True)
+    festival = models.ForeignKey(Festival, models.DO_NOTHING)
+    image_url = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'festival_img'
+
+
+class FestivalInfo(models.Model):
+    festival_info_id = models.BigAutoField(primary_key=True)
+    festival = models.OneToOneField(Festival, models.DO_NOTHING)
+    host = models.CharField(max_length=100, blank=True, null=True)
+    phone_number = models.CharField(max_length=255, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    organizer_info = models.CharField(max_length=100, blank=True, null=True)
+    performance_time = models.TextField(blank=True, null=True)
+    place_of_event = models.TextField(blank=True, null=True)
+    homepage = models.CharField(max_length=255, blank=True, null=True)
+    fee = models.TextField(blank=True, null=True)
+    detail_info = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'festival_info'
