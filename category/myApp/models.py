@@ -53,6 +53,7 @@ class FestivalInfo(models.Model):
         managed = False
         db_table = 'festival_info'
 
+
 class Trend(models.Model):
     trend_id = models.IntegerField(primary_key=True)
     area_name = models.CharField(max_length=45, blank=True, null=True)

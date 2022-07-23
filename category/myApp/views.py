@@ -6,6 +6,7 @@ from .models import FestivalInfo
 from .models import FestivalImg
 from .models import Trend
 
+
 # Create your views here.
 def showTable(request):
     sqlQuery = [0]* 17
@@ -104,6 +105,24 @@ def showTable(request):
 
     return render(request, 'myApp\index.html', {'hotspot' : hotspot_list, 'festival_list' : festival_list,
                                                 'trends_list' : trends_list})
+
+def show_festival(request):
+    festivals = Festival.objects.all().values().order_by('festival_id')
+
+    festival_pg = Paginator(festivals, 10)
+    page = int(request.GET.get('page', 1))
+    festival_list = festival_pg.get_page(page)
+
+    return render(request, 'myApp/festival.html', {'festival_list': festival_list})
+
+
+def festival_detail(request, festival_id):
+    festival = Festival.objects.get(festival_id=festival_id)
+    festival_info = FestivalInfo.objects.get(festival_id=festival_id)
+    festival_img = FestivalImg.objects.filter(festival_id=festival_id)
+
+    return render(request, 'myApp\index.html', {"hotspot" : hotspot_list})
+
 
 def show_festival(request):
     festivals = Festival.objects.all().values().order_by('festival_id')
