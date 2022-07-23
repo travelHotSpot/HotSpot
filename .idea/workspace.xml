@@ -3,6 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="e1f9358b-84d5-47a8-8d76-325cfcf3cf99" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/category/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/category/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/myApp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/static/myApp/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/myApp/templates/myApp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/templates/myApp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/myApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,11 +42,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\migrations" />
       <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\templates\myApp" />
       <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\static\myApp" />
       <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\templates\static" />
       <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\templates" />
-      <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\static" />
     </key>
   </component>
   <component name="RunManager" selected="Python.insertData">
