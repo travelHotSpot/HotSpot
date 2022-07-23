@@ -165,7 +165,9 @@
 <div class="festival_details" id="details">
     <h4>상세정보</h4>
     <hr>
-    <p> {{ festival_info.detail_info }}</p>
+    {% autoescape off %}
+    <pre> {{ festival_info.detail_info }} </pre>
+    {% endautoescape %}
     <div id="map"></div>
         <script>
             var container = document.getElementById('map');
