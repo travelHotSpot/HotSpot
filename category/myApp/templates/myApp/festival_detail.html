@@ -22,14 +22,14 @@
             width: 100%;
             height: 35px;
         }
-        ul{
+        nav ul{
             display: flex;
             justify-content: space-between;
             width: 100%;
             border-top: 1px solid black;
             border-bottom: 1px solid black;
         }
-        li{
+        nav ul li{
             list-style: none;
             float: left;
             text-align: center;
@@ -80,137 +80,172 @@
             height: 300px;
             margin: auto;
         }
+        .festival_details_info_list ul li{
+            list-style: none;
+            float: left;
+            width: 50%;
+            padding: 0 0 9px 0;
+            display: table;
+            text-align: center;
+            line-height: 30px;
+        }
+        .festival_details_info_list ul li strong{
+            float: none;
+            margin-right: 0;
+            position: relative;
+            display: table-cell;
+            width: 128px;
+            padding: 0 0 0 12px;
+            font-weight: 700;
+            color: #333;
+        }
+        .festival_details_info_list ul li span{
+            float: none;
+            width: auto;
+            display: table-cell;
+            color: #666;
+            padding-right: 20px;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
-<div class="festival_info_head">
-    <h3>{{ festival.festival_name }}</h3>
-    <p>{{ festival_info.address }} | {{ festival.start_date|date:'Y-m-d' }} ~ {{ festival.end_date|date:'Y-m-d' }}</p>
-</div>
-
-<div class="festival_info_nav">
-    <nav>
-        <ul>
-            <li><a href="#imgs"><span>사진보기</span></a></li>
-            <li><a href="#details"><span>상세정보</span></a></li>
-        </ul>
-    </nav>
-
-</div>
-
-<div class="festival_imgs" id="imgs">
-    <div class="left_button" onclick="slide_left()">&lang;</div>
-    <div class="slide_container">
-    {% for img_info in festival_img %}
-        {% if forloop.first %}
-        {% else %}
-        <div class="slider_item">
-            <img src="{{ img_info.image_url }}">
-        </div>
-        {% endif %}
-        {% empty %}
-        <img src="{% static '/myApp/assets/no_image_icon.png' %}">
-    {% endfor %}
+<div>
+    <div class="festival_info_head">
+        <h3>{{ festival.festival_name }}</h3>
+        <p>{{ festival_info.address }} | {{ festival.start_date|date:'Y-m-d' }} ~ {{ festival.end_date|date:'Y-m-d' }}</p>
     </div>
-    <div class="right_button" onclick="slide_right()">&rang;</div>
-</div>
 
-<script>
-    const SHOWING_CLASS = "showing";
-    const firstSlide = document.querySelector(".slider_item:first-child");
+    <div class="festival_info_nav">
+        <nav>
+            <ul>
+                <li><a href="#imgs"><span>사진보기</span></a></li>
+                <li><a href="#details"><span>상세정보</span></a></li>
+                <li><a href="#comments"><span>댓글</span></a></li>
+            </ul>
+        </nav>
 
-    function slide_init(){
-        const currentSlide = document.querySelector(`.${SHOWING_CLASS}`);
-        if(currentSlide){
-            currentSlide.classList.remove(SHOWING_CLASS);
-        }else{
-            firstSlide.classList.add(SHOWING_CLASS);
-        }
-    }
+    </div>
 
-    function slide_right(){
-        const currentSlide = document.querySelector(`.${SHOWING_CLASS}`);
-        if(currentSlide){
-            currentSlide.classList.remove(SHOWING_CLASS);
-            const nextSlide = currentSlide.nextElementSibling;
-            if(nextSlide){
-                nextSlide.classList.add(SHOWING_CLASS);
+    <div class="festival_imgs" id="imgs">
+        <div class="left_button" onclick="slide_left()">&lang;</div>
+        <div class="slide_container">
+        {% for img_info in festival_img %}
+            {% if forloop.first %}
+            {% else %}
+            <div class="slider_item">
+                <img src="{{ img_info.image_url }}">
+            </div>
+            {% endif %}
+            {% empty %}
+            <img src="{% static '/myApp/assets/no_image_icon.png' %}">
+        {% endfor %}
+        </div>
+        <div class="right_button" onclick="slide_right()">&rang;</div>
+    </div>
+
+    <script>
+        const SHOWING_CLASS = "showing";
+        const firstSlide = document.querySelector(".slider_item:first-child");
+
+        function slide_init(){
+            const currentSlide = document.querySelector(`.${SHOWING_CLASS}`);
+            if(currentSlide){
+                currentSlide.classList.remove(SHOWING_CLASS);
             }else{
                 firstSlide.classList.add(SHOWING_CLASS);
             }
-        }else{
-            firstSlide.classList.add(SHOWING_CLASS);
         }
-    }
 
-    function slide_left(){
-        const currentSlide = document.querySelector(`.${SHOWING_CLASS}`);
-        if(currentSlide){
-            currentSlide.classList.remove(SHOWING_CLASS);
-            const nextSlide = currentSlide.previousElementSibling;
-            if(nextSlide){
-                nextSlide.classList.add(SHOWING_CLASS);
+        function slide_right(){
+            const currentSlide = document.querySelector(`.${SHOWING_CLASS}`);
+            if(currentSlide){
+                currentSlide.classList.remove(SHOWING_CLASS);
+                const nextSlide = currentSlide.nextElementSibling;
+                if(nextSlide){
+                    nextSlide.classList.add(SHOWING_CLASS);
+                }else{
+                    firstSlide.classList.add(SHOWING_CLASS);
+                }
             }else{
                 firstSlide.classList.add(SHOWING_CLASS);
             }
-        }else{
-            firstSlide.classList.add(SHOWING_CLASS);
         }
-    }
 
-    slide_init();
-</script>
+        function slide_left(){
+            const currentSlide = document.querySelector(`.${SHOWING_CLASS}`);
+            if(currentSlide){
+                currentSlide.classList.remove(SHOWING_CLASS);
+                const nextSlide = currentSlide.previousElementSibling;
+                if(nextSlide){
+                    nextSlide.classList.add(SHOWING_CLASS);
+                }else{
+                    firstSlide.classList.add(SHOWING_CLASS);
+                }
+            }else{
+                firstSlide.classList.add(SHOWING_CLASS);
+            }
+        }
 
+        slide_init();
+    </script>
 
-<div class="festival_details" id="details">
-    <h4>상세정보</h4>
-    <hr>
-    {% autoescape off %}
-    <pre> {{ festival_info.detail_info }} </pre>
-    {% endautoescape %}
-    <div id="map"></div>
-        <script>
-            var container = document.getElementById('map');
-            var options = {
-                center: new kakao.maps.LatLng({{ festival.latitude|safe }}, {{ festival.longitude|safe }}),
-                level: 3
-            };
+    <div class="festival_details" id="details">
+        <h4>상세정보</h4>
+        <hr>
+        {% autoescape off %}
+        <pre> {{ festival_info.detail_info }} </pre>
+        {% endautoescape %}
+        <div id="map"></div>
+            <script>
+                var container = document.getElementById('map');
+                var options = {
+                    center: new kakao.maps.LatLng({{ festival.latitude|safe }}, {{ festival.longitude|safe }}),
+                    level: 3
+                };
 
-            var map = new kakao.maps.Map(container, options);
+                var map = new kakao.maps.Map(container, options);
 
-            var markerPosition  = new kakao.maps.LatLng({{ festival.latitude|safe }}, {{ festival.longitude|safe }});
+                var markerPosition  = new kakao.maps.LatLng({{ festival.latitude|safe }}, {{ festival.longitude|safe }});
 
-            var marker = new kakao.maps.Marker({
-                position: markerPosition
-            });
+                var marker = new kakao.maps.Marker({
+                    position: markerPosition
+                });
 
-            marker.setMap(map);
-        </script>
-    <ul>
-        <li><strong>시작일</strong><span>{{ festival.start_date|date:'Y.m.d' }}</span></li>
-        <li><strong>종료일</strong><span>{{ festival.end_date|date:'Y.m.d' }}</span></li>
-        {% if festival_info.phone_number %}
-            <li><strong>전화번호</strong><span>{{ festival_info.phone_number }}</span></li>
-        {% endif %}
-        {% if festival_info.hompage %}
-            <li><strong>홈페이지</strong><span>{{ festival_info.homepage }}</span></li>
-        {% endif %}
-        {% if festival_info.address %}
-            <li><strong>주소</strong><span>{{ festival_info.address }}</span></li>
-        {% endif %}
-        {% if festival_info.place_of_event %}
-            <li><strong>행사장소</strong><span>{{ festival_info.place_of_event }}</span></li>
-        {% endif %}
-        {% if festival_info.host %}
-            <li><strong>주최</strong><span>{{ festival_info.host }}</span></li>
-        {% endif %}
-        {% if festival_info.organizer_info %}
-            <li><strong>주관</strong><span>{{ festival_info.organizer_info }}</span></li>
-        {% endif %}
-        {% if festival_info.fee %}
-            <li><strong>이용요금</strong><span>{{ festival_info.fee }}</span></li>
-        {% endif %}
-    </ul>
+                marker.setMap(map);
+            </script>
+        <div class="festival_details_info_list">
+            <ul>
+                <li><strong>시작일</strong><span>{{ festival.start_date|date:'Y.m.d' }}</span></li>
+                <li><strong>종료일</strong><span>{{ festival.end_date|date:'Y.m.d' }}</span></li>
+                {% if festival_info.phone_number %}
+                    <li><strong>전화번호</strong><span>{{ festival_info.phone_number }}</span></li>
+                {% endif %}
+                {% if festival_info.hompage %}
+                    <li><strong>홈페이지</strong><span>{{ festival_info.homepage }}</span></li>
+                {% endif %}
+                {% if festival_info.address %}
+                    <li><strong>주소</strong><span>{{ festival_info.address }}</span></li>
+                {% endif %}
+                {% if festival_info.place_of_event %}
+                    <li><strong>행사장소</strong><span>{{ festival_info.place_of_event }}</span></li>
+                {% endif %}
+                {% if festival_info.host %}
+                    <li><strong>주최</strong><span>{{ festival_info.host }}</span></li>
+                {% endif %}
+                {% if festival_info.organizer_info %}
+                    <li><strong>주관</strong><span>{{ festival_info.organizer_info }}</span></li>
+                {% endif %}
+                {% if festival_info.fee %}
+                    <li><strong>이용요금</strong><span>{{ festival_info.fee }}</span></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div id="comments">
+
+    </div>
 </div>
 </body>
 </html>
