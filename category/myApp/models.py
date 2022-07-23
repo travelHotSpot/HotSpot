@@ -52,3 +52,15 @@ class FestivalInfo(models.Model):
     class Meta:
         managed = False
         db_table = 'festival_info'
+
+
+class Trend(models.Model):
+    trend_id = models.IntegerField(primary_key=True)
+    area_name = models.CharField(max_length=45, blank=True, null=True)
+    search_value = models.IntegerField(blank=True, null=True)
+    search_date = models.DateField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'trend'
+
