@@ -25,7 +25,6 @@ with open(key_file) as in_file:
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-n52mniripe2frne$^ye1^qfe(w79nw*m1bq3-97qtymbc@%5-d'
 SECRET_KEY = keys['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
