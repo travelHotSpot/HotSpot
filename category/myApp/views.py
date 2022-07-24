@@ -17,9 +17,9 @@ def showTable(request):
         connection.close()
 
         for row in fetchResultQuery:
-            hotspot_list.append({'Name' : row[0], 'Address' : row[1], 'Category' : row[2], 'Search' : row[3]})
+            hotspot_list.append({'Name': row[0], 'Address': row[1], 'Category': row[2], 'Search': row[3]})
 
-    return render(request, 'myApp\index.html', {"hotspot" : hotspot_list})
+    return render(request, 'myApp/index.html', {"hotspot": hotspot_list})
 
 
 def show_festival(request):
