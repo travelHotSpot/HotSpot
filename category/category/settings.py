@@ -10,17 +10,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os.path
+import json
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+key_file = os.path.join(BASE_DIR, 'keys.json')
+
+with open(key_file) as in_file:
+    keys = json.loads(in_file.read())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-n52mniripe2frne$^ye1^qfe(w79nw*m1bq3-97qtymbc@%5-d'
+# SECRET_KEY = 'django-insecure-n52mniripe2frne$^ye1^qfe(w79nw*m1bq3-97qtymbc@%5-d'
+SECRET_KEY = keys['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myApp',
-    'bootstrap4'
+    'bootstrap4',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -78,11 +85,11 @@ WSGI_APPLICATION = 'category.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'testdatabase',
-        'USER': 'admin',
-        'PASSWORD': 'Hotspot123!',
-        'HOST': 'database-hotspot.ckoft094ctd6.ap-northeast-2.rds.amazonaws.com',
-        'PORT': '3306',
+        'NAME': keys['DATABASE']['NAME'],
+        'USER': keys['DATABASE']['USER'],
+        'PASSWORD': keys['DATABASE']['PASSWORD'],
+        'HOST': keys['DATABASE']['HOST'],
+        'PORT': keys['DATABASE']['PORT']
     }
 }
 
@@ -122,9 +129,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# AWS
+AWS_ACCESS_KEY_ID = keys['AWS_S3']['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = keys['AWS_S3']['AWS_SECRET_ACCESS_KEY']
+AWS_REGION = keys['AWS_S3']['AWS_REGION']
+AWS_STORAGE_BUCKET_NAME = keys['AWS_S3']['AWS_STORAGE_BUCKET_NAME']
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazon.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400'
+}
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
