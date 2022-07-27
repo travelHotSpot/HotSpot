@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.showTable, name='showTable'),
     path('festival', views.show_festival, name='festival'),
-    path('festival/<int:festival_id>/', views.festival_detail, name='festival_detail')
+    path('festival/<int:festival_id>/', views.festival_detail, name='festival_detail'),
+    path('festival/write_comment/<int:festival_id>', views.create_comment_festival, name='create_comment_festival'),
 ]

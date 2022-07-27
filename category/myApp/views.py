@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db import connection
 from django.core.paginator import Paginator
+from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.http import require_POST
 from .models import Festival
 from .models import FestivalInfo
 from .models import FestivalImg
 from .models import Trend
+from .models import CommentFestival
+from .forms import CommentForm
 
 
 # Create your views here.
@@ -121,6 +125,30 @@ def festival_detail(request, festival_id):
     festival = Festival.objects.get(festival_id=festival_id)
     festival_info = FestivalInfo.objects.get(festival_id=festival_id)
     festival_img = FestivalImg.objects.filter(festival_id=festival_id)
+    try:
+        comments = CommentFestival.objects.filter(festival_id=festival_id)
+    except CommentFestival.DoesNotExist:
+        comments = []
 
+    comment_form = CommentForm()
     return render(request, 'myApp/festival_detail.html', {'festival': festival, 'festival_info': festival_info,
-                                                          'festival_img': festival_img})
+                                                          'festival_img': festival_img, 'comments': comments,
+                                                          'comment_form': comment_form})
+
+
+@require_POST
+def create_comment_festival(request, festival_id):
+    festival_article = get_object_or_404(Festival, festival_id=festival_id)
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            # comment_form.save()
+            comment = comment_form.save(commit=False)
+            comment.festival_id = festival_id
+            # comment.username = request.session['username']
+            # comment.comment_pw = request.session['password']
+            comment.save()
+            return redirect('festival_detail', festival_id=festival_article.festival_id)
+        else:
+            comment_form = CommentForm()
+        return render(request, 'myApp/festival_detail.html', {'form': comment_form})

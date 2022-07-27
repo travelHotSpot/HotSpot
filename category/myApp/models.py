@@ -57,12 +57,28 @@ class FestivalInfo(models.Model):
 
 
 class Trend(models.Model):
-    trend_id = models.IntegerField(primary_key=True)
-    area_name = models.CharField(max_length=45, blank=True, null=True)
-    search_value = models.IntegerField(blank=True, null=True)
-    search_date = models.DateField(blank=True, null=True)
+    seq_no = models.AutoField(primary_key=True)
+    day_rank = models.IntegerField()
+    keyword = models.CharField(max_length=45)
+    area_name = models.CharField(max_length=45)
+    mobile_search = models.IntegerField()
+    pc_search = models.IntegerField()
+    search_sum = models.IntegerField()
+    search_date = models.DateField()
 
     class Meta:
         managed = False
         db_table = 'trend'
 
+
+class CommentFestival(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    festival = models.ForeignKey('Festival', models.DO_NOTHING)
+    username = models.CharField(max_length=10)
+    passwd = models.CharField(max_length=10)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        managed = False
+        db_table = 'comment_festival'
