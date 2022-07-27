@@ -38,8 +38,8 @@
                 display : flex;
                 flex : 0 0 auto;
                 position : absolute;
-                top : 0px;
-                left : 300px;
+                top : 100px;
+                left : 350px;
                 width : 700px;
                 height : 800px;
                 float: left;
@@ -48,7 +48,7 @@
             .row.content svg {
                 transform: translate(300,0);
                 viewBox: 0 0 1000 900;
-                height: 700;
+                height: 500;
             }
 
             #info-box {
@@ -72,23 +72,52 @@
                 text-align: center;
             }
             #festival,#trends {
-                animation : fadeInRight 1s;
+              border-collapse: collapse;
+              text-align: left;
+              line-height: 1.5;
+              border: 1px solid #ccc;
+              margin: 20px 10px;
+              table-layout: fixed;
+            }
+            #festival thead,#trends thead {
+              border-right: 1px solid #ccc;
+              border-left: 1px solid #ccc;
+              background: #6666BD;
+            }
+            #festival thead th,#trends thead th {
+              padding: 10px;
+              font-weight: bold;
+              vertical-align: top;
+              color: white;
+            }
+            #festival tbody tr,#trends tbody tr {
+              width: 150px;
+              padding: 10px;
+              font-weight: bold;
+              vertical-align: top;
+              border-bottom: 1px solid #ccc;
+              background: white;
+            }
+            #festival tr,#trends tr {
+              width: 350px;
+              padding: 10px;
+              vertical-align: top;
+              border-bottom: 1px solid #ccc;
             }
         </style>
         <script>document.addEventListener('contextmenu', event => event.preventDefault());</script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
-    <body style="background: url(https://t1.daumcdn.net/brunch/service/user/LLa/file/JEPW2Zl-eqE7B3SC8LuMiIF2oRc.jpg?download) no-repeat center center fixed;
-  background-size: cover;">
+    <body style = "background-color:#aed3ec;">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">여행 카테고리</a>
+                <a class="navbar-brand" href="#!">HOTSPOT</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a class="nav-link" href="http://127.0.0.1:8000/">홈</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">관광지</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="/festival">축제</a></li>
                     </ul>
@@ -96,11 +125,12 @@
             </div>
         </nav>
         <!-- Page Content-->
+        <br><br>
         <section>
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5">
                     <div class="col-lg-6">
-                        <h1 class="mt-5" style="color:white; font-weight:bold;">Hotspot Picture</h1>
+                        <h1 class="mt-5" style="font-weight:bold;">Hotspot Picture</h1>
                         <p style="font-weight: bold">여행 가고 싶은 도시에 마우스를 올려보세요!</p>
                     </div>
                 </div>
@@ -177,6 +207,7 @@
                 </g>
             </svg>
         </div>
+        <br>
         <div  id = "festival" style="position: absolute; left : 50%; display : inline-block; ">
             <table>
                 <thead>
@@ -206,20 +237,21 @@
                 {% endif %}
                 </tbody>
             </table>
-            <br>
+        </div>
+        <div id = "trends" style="position: absolute; left : 50%; bottom : 10%; display : inline-block; width:100; table-layout: fixed; ">
             <table>
                 <thead>
                     <tr>
-                        <th>트렌드</th>
-                        <th>검색 수</th>
+                        <th>트렌드&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th>검색 수&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% if trends_list %}
                     {% for row in trends_list %}
                     <tr>
-                        <td>{{ row.area_name }}</td>
-                        <td>{{ row.search_value }}</td>
+                        <td>{{ row.area_name }}&nbsp;&nbsp;&nbsp;</td>
+                        <td>{{ row.search_value }}&nbsp;&nbsp;&nbsp;</td>
                     </tr>
                     {% endfor %}
                 {% else %}
