@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1f9358b-84d5-47a8-8d76-325cfcf3cf99" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/HotspotProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/HotspotProject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/crawling/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720162409_세종특별자치시_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720162541_강남구_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720162601_강동구_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720181802_서울특별시_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720181819_부산광역시_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/trend/trend1020220718.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +28,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2AvD3bqiLW34ssAV6MGTUW0UIqR" />
   <component name="ProjectLevelVcsManager">
@@ -44,7 +56,7 @@
       <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\static" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.insertData">
+  <component name="RunManager" selected="Python.main (1)">
     <configuration name="insertData" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="HotspotProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -58,6 +70,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/category/util/insertData.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="HotspotProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/category/crawling" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/category/crawling/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -89,6 +122,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.insertData" />
       </list>
     </recent_temporary>
@@ -126,6 +160,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
