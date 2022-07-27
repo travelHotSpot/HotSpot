@@ -62,6 +62,11 @@
             height: 300px;
             margin: auto;
         }
+        .festival_details{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .festival_details_info_list ul li{
             list-style: none;
             float: left;
@@ -93,6 +98,7 @@
             width: 1024px;
             margin: 0 auto;
             padding: 0 20px 27px 20px;
+            margin-top: 100px;
         }
         pre {
             white-space: -moz-pre-wrap;
@@ -106,8 +112,12 @@
             word-wrap: break-word;
             /* IE 5.5+ */
         }
+        .festival_info_head, .festival_info_nav, .festival_imgs, .festival_details {
+            margin-bottom: 50px;
+        }
     </style>
 </head>
+
 <body style = "background-color:#aed3ec;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container px-4 px-lg-5">
@@ -205,7 +215,7 @@
             slide_init();
         </script>
 
-        <div class="festival_details" id="details">
+        <div class="festival_details container" id="details">
             <h4>상세정보</h4>
             <hr>
             {% autoescape off %}
@@ -256,10 +266,59 @@
                     {% endif %}
                 </ul>
             </div>
+            <hr>
         </div>
 
-        <div id="comments">
-
+        <div class="festival_comments container" id="comments">
+            <p>댓글</p>
+            <hr>
+            <div class="write_comment container">
+                <form method="POST" action="{% url 'create_comment_festival' festival.festival_id %}">
+                    {% csrf_token %}
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col">
+                                <div class="col-auto">
+                                    {{ comment_form.username }}
+                                </div>
+                                <div class="col-auto">
+                                    {{ comment_form.passwd }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                {{ comment_form.content }}
+                            </div>
+                            <div class="col">
+                                <input type="submit">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr>
+            <div class="show_comment container">
+                {% if comments %}
+                    {% for comment in comments %}
+                        <div class="container text-center">
+                            <div class="row">
+                                <div class="col">
+                                    {{ comment.username }}
+                                </div>
+                                <div class="col">
+                                    {{ comment.content }}
+                                </div>
+                                <div class="col">
+                                    {{ comment.created_at|date:'m.d f:s' }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="container text-center">
+                        댓글이 없습니다.
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 <!-- Bootstrap core JS-->

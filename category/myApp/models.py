@@ -78,3 +78,16 @@ class Trend(models.Model):
     class Meta:
         managed = False
         db_table = 'trend'
+
+
+class CommentFestival(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    festival = models.ForeignKey('Festival', models.DO_NOTHING)
+    username = models.CharField(max_length=10)
+    passwd = models.CharField(max_length=10)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        managed = False
+        db_table = 'comment_festival'
