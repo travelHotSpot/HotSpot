@@ -2,16 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1f9358b-84d5-47a8-8d76-325cfcf3cf99" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/HotspotProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/HotspotProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/category/crawling/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/crawling/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720162409_세종특별자치시_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720162541_강남구_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720162601_강동구_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720181802_서울특별시_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/crawling/populartourspot/20220720181819_부산광역시_202107-202206_데이터랩_다운로드.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/crawling/trend/trend1020220718.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/picture/송정.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/picture/해운대.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/trend/trend1020220722.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

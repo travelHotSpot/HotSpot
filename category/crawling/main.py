@@ -27,7 +27,10 @@ else:
     raise Exception()
 
 def imgandtext(category, typeXPATH, lastPage):
-    DOWNLOAD_DIR = f'{PROJECT_DIR}\\' + category + '_imgtext\\'
+    path = f'{PROJECT_DIR}\\' + category + '_imgtext\\'
+    if not os.path.isdir(path):
+        os.mkdir(path)
+    DOWNLOAD_DIR = path
     chrome = generate_chrome(
         driver_path=driver_path,
         headless=False,
@@ -146,6 +149,9 @@ def region(Xpath, chrome):
     time.sleep(random.randint(3, 5))
 
 def popularTouristspot():
+    path = f'{PROJECT_DIR}\\populartourspot\\'
+    if not os.path.isdir(path):
+        os.mkdir(path)
     DOWNLOAD_DIR = f'{PROJECT_DIR}\\populartourspot\\'
     print(DOWNLOAD_DIR)
     chrome = generate_chrome(
@@ -182,10 +188,12 @@ def popularTouristspot():
     region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[6]', chrome) #경상북도
     region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[7]', chrome) #경상남도
     region('/html/body/div[2]/div[2]/div[6]/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[2]/a[8]', chrome) #제주
-    input()
 
 
 def picture():
+    path = f'{PROJECT_DIR}\\picture\\'
+    if not os.path.isdir(path):
+        os.mkdir(path)
     DOWNLOAD_DIR = f'{PROJECT_DIR}\\picture\\'
     chrome = generate_chrome(
         driver_path=driver_path,
@@ -204,16 +212,24 @@ def picture():
         elm.send_keys(search)
         elm.send_keys(Keys.RETURN)
         time.sleep(random.randint(2, 3))
-        chrome.find_element(By.XPATH, '/html/body/div/div/div[2]/div[4]/div[1]/div/div/div/div[1]/figure[1]/div/div[1]/div/div/a/div/div[2]/div/img').click()
-        time.sleep(random.randint(2, 3))
-        chrome.find_element(By.XPATH, '/html/body/div[4]/div/div/div[4]/div/div/div[1]/div[1]/header/div[2]/div[3]/div/a/span').click()
-        time.sleep(random.randint(5, 6))
-        filename = max([DOWNLOAD_DIR + '\\' + f for f in os.listdir(DOWNLOAD_DIR)], key=os.path.getctime)
-        shutil.move(os.path.join(DOWNLOAD_DIR, filename), DOWNLOAD_DIR + '//' + search + '.jpg')
+        try:
+            chrome.find_element(By.XPATH, '/html/body/div/div/div[2]/div[4]/div[1]/div/div/div/div[1]/figure[1]/div/div[1]/div/div/a/div/div[2]/div/img').click()
+            time.sleep(random.randint(2, 3))
+            chrome.find_element(By.XPATH, '/html/body/div[4]/div/div/div[4]/div/div/div[1]/div[1]/header/div[2]/div[3]/div/a/span').click()
+            time.sleep(random.randint(5, 6))
+            filename = max([DOWNLOAD_DIR + '\\' + f for f in os.listdir(DOWNLOAD_DIR)], key=os.path.getctime)
+            shutil.move(os.path.join(DOWNLOAD_DIR, filename), DOWNLOAD_DIR + '//' + search + '.jpg')
+        except:
+            print("없는 이미지 입니다.")
 
-    chrome.close()
+
+
 
 def trend():
+    path = f'{PROJECT_DIR}\\trend\\'
+    if not os.path.isdir(path):
+        os.mkdir(path)
+
     DOWNLOAD_DIR = f'{PROJECT_DIR}\\trend\\'
     chrome = generate_chrome(
         driver_path=driver_path,
@@ -254,7 +270,6 @@ def trend():
     date = chrome.find_element(By.XPATH,
                                '/html/body/div[2]/div[2]/div/div/div[2]/div[5]/div[2]/table/tbody/tr[1]/td[10]').text
     wb.save(".\\trend\\trend10" + date + ".xlsx")
-    input()
     wb.close()
 
 
