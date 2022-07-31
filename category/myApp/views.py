@@ -139,16 +139,26 @@ def festival_detail(request, festival_id):
 @require_POST
 def create_comment_festival(request, festival_id):
     festival_article = get_object_or_404(Festival, festival_id=festival_id)
-    if request.method == 'POST':
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            # comment_form.save()
-            comment = comment_form.save(commit=False)
-            comment.festival_id = festival_id
-            # comment.username = request.session['username']
-            # comment.comment_pw = request.session['password']
-            comment.save()
-            return redirect('festival_detail', festival_id=festival_article.festival_id)
-        else:
-            comment_form = CommentForm()
-        return render(request, 'myApp/festival_detail.html', {'form': comment_form})
+    # if request.method == 'POST':
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        # comment_form.save()
+        comment = comment_form.save(commit=False)
+        comment.festival_id = festival_id
+        # comment.username = request.session['username']
+        # comment.comment_pw = request.session['password']
+        comment.save()
+        return redirect('festival_detail', festival_id=festival_article.festival_id)
+    else:
+        comment_form = CommentForm()
+    return render(request, 'myApp/festival_detail.html', {'form': comment_form})
+
+
+@require_POST
+def delete_comment_festival(request, festival_id, comment_id):
+    festival = get_object_or_404(Festival, festival_id=festival_id)
+    comment = get_object_or_404(CommentFestival, comment_id=comment_id, festival_id=festival_id)
+    if request.POST['password'] == comment.passwd:
+        comment.delete()
+    return redirect('festival_detail', festival_id=festival.festival_id)
+

@@ -23,4 +23,5 @@ urlpatterns = [
     path('festival', views.show_festival, name='festival'),
     path('festival/<int:festival_id>/', views.festival_detail, name='festival_detail'),
     path('festival/write_comment/<int:festival_id>', views.create_comment_festival, name='create_comment_festival'),
+    path('festival/delete_comment/<int:festival_id><int:comment_id>', views.delete_comment_festival, name='delete_comment_festival'),
 ]
