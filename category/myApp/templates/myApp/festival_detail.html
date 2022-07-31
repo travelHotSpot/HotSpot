@@ -115,6 +115,15 @@
         .festival_info_head, .festival_info_nav, .festival_imgs, .festival_details {
             margin-bottom: 50px;
         }
+        /*.modal{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            background-color: rgba(0, 0, 0, 0.4);
+        }*/
     </style>
 </head>
 <body style="background: url(https://t1.daumcdn.net/brunch/service/user/LLa/file/JEPW2Zl-eqE7B3SC8LuMiIF2oRc.jpg?download) no-repeat center center fixed;
@@ -309,6 +318,53 @@
                                 </div>
                                 <div class="col">
                                     {{ comment.created_at|date:'m.d f:s' }}
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="delete_comment{{ forloop.counter }} btn btn-xs btn-success"
+                                            data-toggle="modal" data-target="#delete_modal{{ forloop.counter }}">X</button>
+                                    <div class="modal fade" id="delete_modal{{ forloop.counter }}" tabindex="-1"
+                                         role="dialog" style="margin:-16px 0 0 -180px; position: relative; width: auto;">
+                                        <div class="modal-dialog modal-sm" role="document" style="margin: 0;">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <form method="POST" action="{% url 'delete_comment_festival' festival.festival_id comment.comment_id %}">
+                                                                {% csrf_token %}
+                                                                <div class="row">
+                                                                    <div class="col-8">
+                                                                        <input type="password" name="password" placeholder="비밀번호">
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <input type="submit">
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <button type="button" class="close_modal btn-close"
+                                                                    data-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $(document).on('click', '.delete_comment{{ forloop.counter }}', function(e){
+                                            e.preventDefault();
+                                            var $popup = $("#delete_modal{{ forloop.counter }}");
+                                            var $doc = $(".modal-dialog");
+
+                                            $popup.modal("show");
+                                        });
+
+                                        $(document).on('click', '.close_modal', function(e){
+                                            e.preventDefault();
+                                            var $popup = $("#delete_modal{{ forloop.counter }}");
+                                            $popup.modal("hide");
+                                        });
+                                    </script>
                                 </div>
                             </div>
                         </div>
