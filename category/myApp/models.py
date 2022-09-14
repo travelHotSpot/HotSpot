@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Hotspot(models.Model):
     name = models.CharField(db_column='Name', primary_key=True, max_length=255)  # Field name made lowercase.
@@ -11,17 +12,19 @@ class Hotspot(models.Model):
         managed = False
         db_table = 'Hotspot'
 
-class CommentFestival(models.Model):
-    comment_id = models.AutoField(primary_key=True)
-    festival = models.ForeignKey('Festival', models.DO_NOTHING)
-    username = models.CharField(max_length=10)
-    passwd = models.CharField(max_length=10)
-    content = models.TextField()
-    created_at = models.DateTimeField()
 
-    class Meta:
-        managed = False
-        db_table = 'comment_festival'
+# class CommentFestival(models.Model):
+#     comment_id = models.AutoField(primary_key=True)
+#     festival = models.ForeignKey('Festival', models.DO_NOTHING)
+#     username = models.CharField(max_length=10)
+#     passwd = models.CharField(max_length=10)
+#     content = models.TextField()
+#     created_at = models.DateTimeField()
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'comment_festival'
+
 
 class Festival(models.Model):
     festival_id = models.BigAutoField(primary_key=True)
@@ -91,3 +94,24 @@ class CommentFestival(models.Model):
     class Meta:
         managed = False
         db_table = 'comment_festival'
+
+
+class Place(models.Model):
+    place_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    category = models.CharField(max_length=255, blank=True, null=True)
+    address = models.TextField()
+    operation_time = models.TextField(blank=True, null=True)
+    homepage = models.TextField(blank=True, null=True)
+    tel = models.CharField(max_length=255, blank=True, null=True)
+    tag = models.CharField(max_length=255, blank=True, null=True)
+    etc = models.CharField(max_length=50, blank=True, null=True)
+    facility = models.CharField(max_length=255, blank=True, null=True)
+    num_of_comments = models.IntegerField(blank=True, null=True)
+    avg_rate = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+    url = models.CharField(max_length=255)
+    weighted_rate = models.DecimalField(max_digits=20, decimal_places=19, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'place'
