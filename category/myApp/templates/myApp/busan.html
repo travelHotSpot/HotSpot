@@ -75,13 +75,15 @@
             #menu_wrap .option button {margin-left:5px;}
             #placesList li {list-style: none;}
             #placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-            #placesList .item span {display: block;margin-top:4px;}
+            #placesList .item span, #starting-point span, #end-point span {display: block;margin-top:4px;}
             #placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-            #placesList .item .info{padding:10px 0 10px 55px;}
+            #placesList .item .info, #starting-point .info, #end-point .info{padding:10px 0 10px 55px;}
             #placesList .info .gray {color:#8a8a8a;}
             #placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-            #placesList .info .tel {color:#009900;}
+            #placesList .info .tel, #starting-point .info .tel, #end-point .info .tel {color:#009900;}
             #placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+            #starting-point .markerbg {float:left;position:absolute;width:36px; height:37px;background:url({% static 'myApp/assets/728937_blue_flag_location_map_marker_icon.png' %}) no-repeat;}
+            #end-point .markerbg {float:left;position:absolute;width:36px; height:37px;background:url({% static 'myApp/assets/728984_flag_red_location_map_marker_icon.png' %}) no-repeat;}
             #placesList .item .marker_1 {background-position: 0 -10px;}
             #placesList .item .marker_2 {background-position: 0 -56px;}
             #placesList .item .marker_3 {background-position: 0 -102px}
@@ -221,33 +223,57 @@
                         </div>
                     </div>
                     <hr>
+                    <div id="starting-point" style="height:80px;">
+                        <span class="markerbg marker_start"></span>
+                        <div class="info">
+                            <h5></h5>
+                            <span class="addr"></span>
+                            <span class="tel"></span>
+                        </div>
+                    </div>
+                    <hr>
                     <ul id="placesList"></ul>
-                    <div id="pagination"></div>
+                    <hr>
+                    <div id="end-point" style="height:80px;">
+                        <span class="markerbg marker_start"></span>
+                        <div class="info">
+                            <h5></h5>
+                            <span class="addr"></span>
+                            <span class="tel"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 </body>
 <script>
-    var container = document.getElementById('map');
-    var options = {
+var sidebarMarkerList = [];
+var hopeListmarkers = [];
+var nameList = [];
+var mapContainer = document.getElementById('map'),
+    mapOption = {
         center: new kakao.maps.LatLng(35.1379222, 129.05562775),
         level: 8
     };
-    var map = new kakao.maps.Map(container, options);
-</script>
-<script>
+
+var map = new kakao.maps.Map(mapContainer, mapOption);
+var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
 // place marker
 function showMarker(){
-    var mapContainer = document.getElementById('map'),
-        mapOption = {
-            center: new kakao.maps.LatLng(35.1379222, 129.05562775),
-            level: 8 // 지도의 확대 레벨
-        };
-
-    var map = new kakao.maps.Map(mapContainer, mapOption);
+    for(var i = 0; i < sidebarMarkerList.length; i++){
+        sidebarMarkerList[i].setMap(null);
+    }
+    sidebarMarkerList = [];
+    nameList = [];
 
     var geocoder = new kakao.maps.services.Geocoder();
+    var nameNode = document.querySelectorAll('.d-flex h5');
+    for(var i = 0; i < nameNode.length; i++){
+        nameList.push(nameNode[i].innerText);
+    }
+
     var pList = document.getElementsByClassName('address');
     var addrList = [];
     for(var i = 0; i < pList.length; i++){
@@ -258,27 +284,188 @@ function showMarker(){
         addrList.push(addr);
     }
 
-    for(let addr of addrList){
+    for(var i = 0; i < addrList.length; i++){
+        var addr = addrList[i];
         geocoder.addressSearch(addr, function(result, status){
             if(status === kakao.maps.services.Status.OK){
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-                var marker = new kakao.maps.Marker({
-                    map: map,
-                    position: coords
-                });
+
+                var imageSrc = '{% static 'myApp/assets/blue_dot_64.png' %}',
+                    imageSize = new kakao.maps.Size(20, 20),
+                    imgOptions =  {
+                        spriteSize : new kakao.maps.Size(64, 64),
+                        spriteOrigin : new kakao.maps.Point(0, 23),
+                    },
+                    markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+                    marker = new kakao.maps.Marker({
+                        position: coords,
+                        image: markerImage
+                    });
+
+                (function(marker, title) {
+                    kakao.maps.event.addListener(marker, 'mouseover', function() {
+                        displayInfowindow(marker, title);
+                    });
+
+                    kakao.maps.event.addListener(marker, 'mouseout', function() {
+                        infowindow.close();
+                    });
+                })(marker, nameList[i]);
+
+                sidebarMarkerList.push(marker);
+                marker.setMap(map);
             }
         });
     }
 }
 
-function addList(addr){
+// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+// 인포윈도우에 장소명을 표시합니다
+function displayInfowindow(marker, title) {
+    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+}
+
+function addHopeList(name, addr, tel){
+    var listLen = document.querySelectorAll('#placesList .item').length;
+    if(listLen == 10){
+        alert('10개를 넘길 수 없음');
+        return;
+    }
+
+    if (addr.search(/(우)/) != -1){
+        addr = addr.slice(0, addr.search(/(우)/) - 1);
+    }
+
     var geocoder = new kakao.maps.services.Geocoder();
     geocoder.addressSearch(addr, function(result, status){
         if(status === kakao.maps.services.Status.OK){
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x),
+                place = {"name": name, "addr": addr, "tel": tel, "coords": coords};
+            var listEl = document.getElementById('placesList'),
+                menuEl = document.getElementById('menu_wrap'),
+                fragment = document.createDocumentFragment(),
+                bounds = new kakao.maps.LatLngBounds(),
+                listStr = '';
+
+            var placePosition = new kakao.maps.LatLng(place.coords.Ma, place.coords.La),
+                marker = addMarker(placePosition, listLen),
+                itemEl = getListItem(listLen, place);
+                fragment.appendChild(itemEl);
+                listEl.appendChild(fragment);
+                menuEl.scrollTop = 0;
         }
     });
+}
 
+function getListItem(index, place) {
+    var el = document.createElement('li'),
+        itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+                    '<div class="info">' +
+                    '   <span>' +
+                    '   <h5>' + place.name + '</h5>' +
+                    '   <button class="btn btn-primary" onclick="setStart(' + (index + 1) + ', \'' + place.name + '\',\'' + place.addr + '\',\'' + place.tel + '\');">출발</button>' +
+                    '   <button class="btn btn-primary" onclick="setEnd(' + (index + 1) + ', \'' + place.name + '\',\'' + place.addr + '\',\'' + place.tel + '\');">도착</button>' +
+                    '   </span>';
+
+    if (place.addr) {
+        itemStr += '    <span class="addr">' + place.addr + '</span>';
+    }
+
+    itemStr += '  <span class="tel">' + place.tel  + '</span>' +
+                '</div>';
+
+    el.innerHTML = itemStr;
+    el.className = 'item';
+
+    return el;
+}
+
+function addMarker(position, idx, title) {
+    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+        imageSize = new kakao.maps.Size(24, 35),
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+        marker = new kakao.maps.Marker({
+            position: position,
+            image: markerImage
+        });
+
+    for(var i = 0; i < sidebarMarkerList.length; i++){
+        if(sidebarMarkerList[i].getPosition().getLat() == marker.getPosition().getLat() &&
+            sidebarMarkerList[i].getPosition().getLng() == marker.getPosition().getLng()){
+            sidebarMarkerList[i].setMap(null);
+            break;
+        }
+    }
+
+    marker.setMap(map);
+    hopeListmarkers.push(marker);
+    return marker;
+}
+
+function setStart(idx, name, addr, tel){
+    var divBox = document.getElementById('starting-point');
+    var infoBox = divBox.getElementsByClassName('info');
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    lis[idx - 1].remove();
+
+    infoBox[0].getElementsByTagName('h5')[0].innerText = name;
+    infoBox[0].getElementsByClassName('addr')[0].innerText = addr;
+    infoBox[0].getElementsByClassName('tel')[0].innerText = tel;
+
+    var orig_marker = hopeListmarkers[idx - 1];
+
+    var imageSrc = '{% static 'myApp/assets/728937_blue_flag_location_map_marker_icon.png' %}',
+        imageSize = new kakao.maps.Size(24, 35),
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+    orig_marker.setImage(markerImage);
+    orig_marker.setMap(null);
+    orig_marker.setMap(map);
+    refreshHopeList()
+}
+
+function setEnd(idx, name, addr, tel){
+    var divBox = document.getElementById('end-point');
+    var infoBox = divBox.getElementsByClassName('info');
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    lis[idx - 1].remove();
+
+    infoBox[0].getElementsByTagName('h5')[0].innerText = name;
+    infoBox[0].getElementsByClassName('addr')[0].innerText = addr;
+    infoBox[0].getElementsByClassName('tel')[0].innerText = tel;
+
+    var orig_marker = hopeListmarkers[idx - 1];
+
+    var imageSrc = '{% static 'myApp/assets/728984_flag_red_location_map_marker_icon.png' %}',
+        imageSize = new kakao.maps.Size(24, 35),
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+    orig_marker.setImage(markerImage);
+    orig_marker.setMap(null);
+    orig_marker.setMap(map);
+    refreshHopeList();
+}
+
+function refreshHopeList(){
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    for(var i = 0; i < lis.length; i++){
+        var li = lis[i];
+        var marker = li.getElementsByClassName('markerbg');
+        marker[0].className = "markerbg marker_" + (i + 1);
+
+        var name = li.getElementsByTagName('h5')[0].innerText,
+            addr = li.getElementsByClassName('addr')[0].innerText,
+            tel = li.getElementsByClassName('tel')[0].innerText,
+            btns = li.getElementsByTagName('button');
+        btns[0].setAttribute("onClick", "setStart(" + (i + 1) + ",\'" + name + "\', \'" + addr + "\', \'" + tel + "\')");
+        btns[1].setAttribute("onClick", "setEnd(" + (i + 1) + ",\'" + name + "\', \'" + addr + "\', \'" + tel + "\')");
+    }
 }
 </script>
 <script src="{% static 'myApp/js/sidebar.js' %}"></script>

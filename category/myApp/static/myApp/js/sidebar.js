@@ -143,7 +143,7 @@ $('#offcanvas').on('hidden.bs.offcanvas', function(e) {
 });
 
 // search function
-function searchPlace(page_no){
+function searchPlace(page){
     var query = $('#search-input').val();
 
     $('.offcanvas-body').remove();
@@ -156,11 +156,11 @@ function searchPlace(page_no){
         url: "busan/searchPlace/",
         data: {
             q: query,
-            page_no: page_no
+            page: page
         },
         success: function(data){
             $('.offcanvas-body').remove();
-            $('#offcanvas').append(data)
+            $('#offcanvas').append(data);
             showMarker();
         },
     });

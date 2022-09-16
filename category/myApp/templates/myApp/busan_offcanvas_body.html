@@ -25,7 +25,7 @@
                         data-tag="{{ spot.tag|safe }}" data-etc="{{ spot.etc }}" data-facility="{{ spot.facility }}"
                         data-kakaomap="{{ spot.url }}">상세보기
                 </button>
-                <button type="button" class="btn btn-primary" onclick="addList({{ spot.address }})"><i class="fa-regular fa-star"></i></button>
+                <button type="button" class="btn btn-primary" onclick="addHopeList('{{spot.name}}', '{{ spot.address }}', '{{ spot.tel }}')"><i class="fa-regular fa-star"></i></button>
             </div>
         </li>
         {% endfor %}
@@ -38,7 +38,7 @@
             {% if spot_list.has_previous %}
             <li class="page-item">
                 {% if keyword %}
-                    <button class="page-link" aria-label="Previous" onclick="searchPlace({{ spot_list.previous_page_number }}, '{{ keyword }}')"><span aria-hidden="true">&laquo;</span></button>
+                    <button class="page-link" aria-label="Previous" onclick="searchPlace({{ spot_list.previous_page_number }})"><span aria-hidden="true">&laquo;</span></button>
                 {% else %}
                     {% if sort %}
                         <button class="page-link" aria-label="Previous" onclick="loadPlace({{ spot_list.previous_page_number }}, '{{ sort }}')"><span aria-hidden="true">&laquo;</span></button>
@@ -53,9 +53,9 @@
             {% if page >= spot_list.number|add:-2 and page <= spot_list.number|add:2 %}
                 {% if keyword %}
                     {% if page == spot_list.number %}
-                        <li class="page-item active"><button class="page-link" onclick="searchPlace({{ page }}, '{{ keyword }}')">{{ page }}</button></li>
+                        <li class="page-item active"><button class="page-link" onclick="searchPlace({{ page }})">{{ page }}</button></li>
                     {% else %}
-                        <li class="page-item"><button class="page-link" onclick="searchPlace({{ page }}, '{{ keyword }}')">{{ page }}</button></li>
+                        <li class="page-item"><button class="page-link" onclick="searchPlace({{ page }})">{{ page }}</button></li>
                     {% endif %}
                 {% else %}
                     {% if page == spot_list.number %}
@@ -79,7 +79,7 @@
             {% if spot_list.has_next %}
             <li class="page-item">
                 {% if keyword %}
-                    <button class="page-link" onclick="searchPlace({{ spot_list.next_page_number }}, '{{ keyword }}')" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
+                    <button class="page-link" onclick="searchPlace({{ spot_list.next_page_number }})" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
                 {% else %}
                     {% if sort %}
                         <button class="page-link" onclick="loadPlace({{ spot_list.next_page_number }}, '{{ sort }}')" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>

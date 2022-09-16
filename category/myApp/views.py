@@ -245,7 +245,7 @@ def search_place(request):
             s["facility"] = eval(s["facility"])
 
     spot_pg = Paginator(spots, per_page=10)
-    page = request.GET.get('page', 1)
+    page = int(request.GET.get('page', 1))
     spot_list = spot_pg.get_page(page)
 
     return render(request, 'myApp/busan_offcanvas_body.html', {'spot_list': spot_list, 'keyword': url_param})
