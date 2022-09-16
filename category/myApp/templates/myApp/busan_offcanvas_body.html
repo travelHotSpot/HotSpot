@@ -1,0 +1,94 @@
+<div class="offcanvas-body px-0">
+    {% if spot_list %}
+    <ol class="list-group list-group-numbered" id="spots" type="A">
+        {% for spot in spot_list %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="d-flex w-100">
+                    <h5 class="mb-1">{{ spot.name }}</h5>
+                    <small>{{ spot.category }}</small>
+                </div>
+                <p class="address mb-1">{{ spot.address }}</p>
+                <p class="mb-1">
+                    {% if spot.tag != "NaN" %}
+                        {% for t in spot.tag %}
+                        <small>{{ t }}</small>
+                        {% endfor %}
+                    {% endif %}
+                </p>
+                <button type="button" class="btn btn-primary open-modal" data-bs-toggle="modal"
+                        data-bs-target="#detailModal"
+                        data-title="{{ spot.name }}" data-category="{{ spot.category }}"
+                        data-address="{{ spot.address }}"
+                        data-op="{{ spot.operation_time }}" data-tel="{{ spot.tel }}"
+                        data-homepage="{{ spot.homepage }}"
+                        data-tag="{{ spot.tag|safe }}" data-etc="{{ spot.etc }}" data-facility="{{ spot.facility }}"
+                        data-kakaomap="{{ spot.url }}">상세보기
+                </button>
+                <button type="button" class="btn btn-primary" onclick="addHopeList('{{spot.name}}', '{{ spot.address }}', '{{ spot.tel }}')"><i class="fa-regular fa-star"></i></button>
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+
+    <!-- paging -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if spot_list.has_previous %}
+            <li class="page-item">
+                {% if keyword %}
+                    <button class="page-link" aria-label="Previous" onclick="searchPlace({{ spot_list.previous_page_number }})"><span aria-hidden="true">&laquo;</span></button>
+                {% else %}
+                    {% if sort %}
+                        <button class="page-link" aria-label="Previous" onclick="loadPlace({{ spot_list.previous_page_number }}, '{{ sort }}')"><span aria-hidden="true">&laquo;</span></button>
+                    {% else %}
+                        <button class="page-link" aria-label="Previous" onclick="loadPlace({{ spot_list.previous_page_number }}"><span aria-hidden="true">&laquo;</span></button>
+                    {% endif %}
+                {% endif %}
+                </a>
+            </li>
+            {% endif %}
+            {% for page in spot_list.paginator.page_range %}
+            {% if page >= spot_list.number|add:-2 and page <= spot_list.number|add:2 %}
+                {% if keyword %}
+                    {% if page == spot_list.number %}
+                        <li class="page-item active"><button class="page-link" onclick="searchPlace({{ page }})">{{ page }}</button></li>
+                    {% else %}
+                        <li class="page-item"><button class="page-link" onclick="searchPlace({{ page }})">{{ page }}</button></li>
+                    {% endif %}
+                {% else %}
+                    {% if page == spot_list.number %}
+                        {% if sort %}
+                            <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}')">{{ page }}</button></li>
+                        {% else %}
+                            <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }})">{{ page }}</button></li>
+                        {% endif %}
+                    {% else %}
+                        {% if sort %}
+                            <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}')">{{ page }}</button></li>
+                        {% else %}
+                            <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }})">{{ page }}</button></li>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% elif page >= spot_list.number|add:-2 and page <= spot_list.number|add:2 %}
+            ..
+            {% endif %}
+            {% endfor %}
+            {% if spot_list.has_next %}
+            <li class="page-item">
+                {% if keyword %}
+                    <button class="page-link" onclick="searchPlace({{ spot_list.next_page_number }})" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
+                {% else %}
+                    {% if sort %}
+                        <button class="page-link" onclick="loadPlace({{ spot_list.next_page_number }}, '{{ sort }}')" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
+                    {% else %}
+                        <button class="page-link" onclick="loadPlace({{ spot_list.next_page_number }})" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
+                    {% endif %}
+                {% endif %}
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
