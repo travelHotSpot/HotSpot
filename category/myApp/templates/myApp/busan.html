@@ -14,16 +14,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/ff169295fb.js" crossorigin="anonymous"></script>
     <script>
+        var gu;
         // first access
         function onload(){
+            {% if gu %}
+                gu = '{{ gu }}';
+            {% else %}
+                gu = null;
+            {% endif %}
+
             $('#offcanvas').append('<div class="offcanvas-body px-0 justify-content-center"><div class="d-flex justify-content-center" style="height: 100%;"><div class="spinner-border align-self-center" role="status"><span class="visually-hidden">Loading...</span></div></div></div>');
             $.ajax({
                 type: "GET",
-                url: "busan/getPlaceList/",
+                url: "/busan/getPlaceList/",
                 data: {
+                    q: gu,
                     page: 1
                 },
                 success: function(data){
+                    $('#search-input').val(gu);
                     $('.offcanvas-body').remove();
                     $('#offcanvas').append(data);
                     showMarker();
@@ -131,7 +140,11 @@
                     <div class="row">
                         <div class="input-group rounded" style="border: solid 2px black">
                             <input type="text" class="form-control" id="search-input" placeholder="관광지, 맛집 검색" style="border: 0px;">
-                            <button class="input-group-text border-0" id="search-addon" style="background-color: white;" onclick="searchPlace(1)">
+                            {% if keyword %}
+                                <button class="input-group-text border-0" id="search-addon" style="background-color: white;" onclick="loadPlace(1, null, '{{keyword}}')">
+                            {% else %}
+                                <button class="input-group-text border-0" id="search-addon" style="background-color: white;" onclick="loadPlace(1)">
+                            {% endif %}
                                 <i class="bi bi-search" style="background-color: white;"></i>
                             </button>
                         </div>
