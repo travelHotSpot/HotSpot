@@ -2,12 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1f9358b-84d5-47a8-8d76-325cfcf3cf99" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/category/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/category/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/category/category/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/category/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/lib/chromedriverLinux" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/lib/chromedriverMac" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/lib/chromedriverWindow.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/crawling/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/crawling/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/myApp/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/category/myApp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/category/myApp/static/myApp/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/static/myApp/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/myApp/templates/myApp/festival.html" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/templates/myApp/festival.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/myApp/templates/myApp/festival_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/templates/myApp/festival_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/category/myApp/templates/myApp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/templates/myApp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/myApp/templates/myApp/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/templates/myApp/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/category/myApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/myApp/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category/util/insertData.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/util/insertData.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +36,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="ProjectId" id="2AvD3bqiLW34ssAV6MGTUW0UIqR" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -37,16 +56,19 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/category/util/csvfile" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\util\csvfile" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\util\csvfile" />
+      <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category" />
       <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\migrations" />
       <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\templates\myApp" />
       <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\static\myApp" />
-      <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\templates\static" />
-      <recent name="C:\Users\JungJiYong\PycharmProjects\HotspotProject\category\myApp\templates" />
     </key>
   </component>
   <component name="RunManager" selected="Python.insertData">

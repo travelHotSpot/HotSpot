@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>부산 지도</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="{% static 'myApp/css/bootstrap.css' %}" rel="stylesheet">
+    <script src="{% static 'myApp/js/bootstrap.bundle.js' %}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5da0f9d4cd718f40845e84cca7385951&libraries=services,clusterer,drawing"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/ff169295fb.js" crossorigin="anonymous"></script>
+    <script>
+        var gu;
+        // first access
+        function onload(){
+            {% if gu %}
+                gu = '{{ gu }}';
+            {% else %}
+                gu = null;
+            {% endif %}
+
+            $('#offcanvas').append('<div class="offcanvas-body px-0 justify-content-center"><div class="d-flex justify-content-center" style="height: 100%;"><div class="spinner-border align-self-center" role="status"><span class="visually-hidden">Loading...</span></div></div></div>');
+            $.ajax({
+                type: "GET",
+                url: "/busan/getPlaceList/",
+                data: {
+                    q: gu,
+                    page: 1
+                },
+                success: function(data){
+                    $('#search-input').val(gu);
+                    $('.offcanvas-body').remove();
+                    $('#offcanvas').append(data);
+                    showMarker();
+                    },
+            });
+        }
+    </script>
+    <style>
+        .offcanvas-btn {
+            left: 400px;
+            top: 50%;
+            visibility: visible;
+        }
+        .offcanvas, .offcanvas.offcanvas-start {
+            top: 56px;
+        }
+        .input-group input:focus {
+            border: 0px;
+        }
+        body {
+            padding-right: 0 !important;
+            overflow: hidden !important;
+        }
+        .modal-dialog {
+            position: fixed;
+            margin-left: 400px !important;
+            width: 350px;
+        }
+        .modal-backdrop{
+            z-index: 1040;
+        }
+        .modal.fade.modal-left .modal-dialog {
+          transform: translate(-400px, 0);
+          -webkit-transform:translate(-400px,0);
+        }
+        .modal.show.modal-left .modal-dialog {
+          transform: none;
+        }
+    </style>
+       <style>
+            .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+            .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+            .map_wrap {position:relative;width:100%;height:500px;}
+            #menu_wrap {position:absolute;top:56px;right:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+            .bg_white {background:#fff;}
+            #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+            #menu_wrap .option{text-align: center;}
+            #menu_wrap .option p {margin:10px 0;}
+            #menu_wrap .option button {margin-left:5px;}
+            #placesList li {list-style: none;}
+            #placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+            #placesList .item span, #starting-point span, #ending-point span {display: block;margin-top:4px;}
+            #placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+            #placesList .item .info, #starting-point .info, #ending-point .info{padding:10px 0 10px 55px;}
+            #placesList .info .gray {color:#8a8a8a;}
+            #placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+            #placesList .info .tel, #starting-point .info .tel, #ending-point .info .tel {color:#009900;}
+            #placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+            #starting-point .markerbg {float:left;position:absolute;width:36px; height:37px;background:url({% static 'myApp/assets/728937_blue_flag_location_map_marker_icon.png' %}) no-repeat;}
+            #ending-point .markerbg {float:left;position:absolute;width:36px; height:37px;background:url({% static 'myApp/assets/728984_flag_red_location_map_marker_icon.png' %}) no-repeat;}
+            #placesList .item .marker_1 {background-position: 0 -10px;}
+            #placesList .item .marker_2 {background-position: 0 -56px;}
+            #placesList .item .marker_3 {background-position: 0 -102px}
+            #placesList .item .marker_4 {background-position: 0 -148px;}
+            #placesList .item .marker_5 {background-position: 0 -194px;}
+            #placesList .item .marker_6 {background-position: 0 -240px;}
+            #placesList .item .marker_7 {background-position: 0 -286px;}
+            #placesList .item .marker_8 {background-position: 0 -332px;}
+            #placesList .item .marker_9 {background-position: 0 -378px;}
+            #placesList .item .marker_10 {background-position: 0 -423px;}
+            #placesList .item .marker_11 {background-position: 0 -470px;}
+            #placesList .item .marker_12 {background-position: 0 -516px;}
+            #placesList .item .marker_13 {background-position: 0 -562px;}
+            #placesList .item .marker_14 {background-position: 0 -608px;}
+            #placesList .item .marker_15 {background-position: 0 -654px;}
+            #pagination {margin:10px auto;text-align: center;}
+            #pagination a {display:inline-block;margin-right:10px;}
+            #pagination .on {font-weight: bold; cursor: default;color:#777;}
+</style>
+</head>
+<body  style="background-color:#aed3ec; height: 100vh;font-family: 'Gamja Flower', cursive; font-size : large" onload="onload()">
+    <header style="height: 7px; overflow: auto;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand">Busan Hotspot</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active"><a class="nav-link" href="http://127.0.0.1:8000/">홈</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/busan">관광지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/festival">축제</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="offcanvas show offcanvas-start w-15" tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+            <button class="btn btn-primary offcanvas-btn position-absolute mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">
+                <i class="btn-arrow bi bi-arrow-right-square-fill fs-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"></i>
+            </button>
+            <div class="offcanvas-header">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="input-group rounded" style="border: solid 2px black">
+                            <input type="text" class="form-control" id="search-input" placeholder="관광지, 맛집 검색" style="border: 0px;">
+                            {% if keyword %}
+                                <button class="input-group-text border-0" id="search-addon" style="background-color: white;" onclick="loadPlace(1, null, '{{keyword}}')">
+                            {% else %}
+                                <button class="input-group-text border-0" id="search-addon" style="background-color: white;" onclick="loadPlace(1)">
+                            {% endif %}
+                                <i class="bi bi-search" style="background-color: white;"></i>
+                                </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex align-items-end flex-column">
+                            <div class="col-md-5">
+                                <select class="form-select" id="sort" required>
+                                    <option selected disabled value="none">-</option>
+                                    <option value="name">이름순</option>
+                                    <option value="rating">평점순</option>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade modal-left" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true" style="width: 400px; height: 100%; top: 26px;">
+        <div class="modal-dialog modal-dialog-centered" style="height: 100%;">
+            <div class="modal-content" style="height: 100%;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">Title(Name)</h5>
+                    <small id="detailModalCategory">category</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="left: 50px;"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <i class="bi bi-geo-alt"></i>
+                            <div class="addr ms-2 me-auto">
+                                주소
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <i class="bi bi-clock"></i>
+                            <div class="opt ms-2 me-auto">
+                                이용시간
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <i class="bi bi-telephone"></i>
+                            <div class="tel ms-2 me-auto">
+                                전화번호
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <i class="bi bi-browser-chrome"></i>
+                            <div class="d-inline-block text-truncate homepage ms-2 me-auto">
+                                홈페이지
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <i class="bi bi-tags"></i>
+                            <div class="tag ms-2 me-auto">
+                                태그
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <i class="bi bi-gift"></i>
+                            <div class="etc ms-2 me-auto">
+                                예약, 배달
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <i class="bi bi-info-circle"></i>
+                            <div class="facility ms-2 me-auto">
+                                시설물
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <a class="kakaomap-url" href="">카카오맵</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="map_container" style="height: 100vh;">
+            <div class="map_wrap">
+                <div id="map" style="height: 100vh;"></div>
+                <div id="menu_wrap" class="bg_white">
+                    <div class="option">
+                        <div>
+                            <button type="submit">경로생성</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div id="starting-point" style="height:80px;">
+                        <span class="markerbg marker_start"></span>
+                        <div class="info">
+                            <h5></h5><i class="bi bi-x" onclick="deleteEndPointMarker('start')"></i>
+                            <span class="addr"></span>
+                            <span class="tel"></span>
+                        </div>
+                    </div>
+                    <hr>
+                    <ul id="placesList"></ul>
+                    <hr>
+                    <div id="ending-point" style="height:80px;">
+                        <span class="markerbg marker_start"></span>
+                        <div class="info">
+                            <h5></h5><i class="bi bi-x" onclick="deleteEndPointMarker('end')"></i>
+                            <span class="addr"></span>
+                            <span class="tel"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+var sidebarMarkerList = [];
+var hopeListmarkers = [];
+var startingMarker;
+var endingMarker;
+var nameList = [];
+var mapContainer = document.getElementById('map'),
+    mapOption = {
+        center: new kakao.maps.LatLng(35.1379222, 129.05562775),
+        level: 8
+    };
+
+var map = new kakao.maps.Map(mapContainer, mapOption);
+var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+// place marker
+function showMarker(){
+    for(var i = 0; i < sidebarMarkerList.length; i++){
+        sidebarMarkerList[i].setMap(null);
+    }
+    sidebarMarkerList = [];
+    nameList = [];
+
+    var geocoder = new kakao.maps.services.Geocoder();
+    var nameNode = document.querySelectorAll('.d-flex h5');
+    for(var i = 0; i < nameNode.length; i++){
+        nameList.push(nameNode[i].innerText);
+    }
+
+    var pList = document.getElementsByClassName('address');
+    var addrList = [];
+    for(var i = 0; i < pList.length; i++){
+        var addr = pList[i].innerText;
+        if (addr.search(/(우)/) != -1){
+            addr = addr.slice(0, addr.search(/(우)/));
+        }
+        addrList.push(addr);
+    }
+
+    for(var i = 0; i < addrList.length; i++){
+        var addr = addrList[i];
+        geocoder.addressSearch(addr, function(result, status){
+            if(status === kakao.maps.services.Status.OK){
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                var imageSrc = '{% static 'myApp/assets/blue_dot_64.png' %}',
+                    imageSize = new kakao.maps.Size(20, 20),
+                    imgOptions =  {
+                        spriteSize : new kakao.maps.Size(64, 64),
+                        spriteOrigin : new kakao.maps.Point(0, 23),
+                    },
+                    markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+                    marker = new kakao.maps.Marker({
+                        position: coords,
+                        image: markerImage
+                    });
+
+                (function(marker, title) {
+                    kakao.maps.event.addListener(marker, 'mouseover', function() {
+                        displayInfowindow(marker, title);
+                    });
+
+                    kakao.maps.event.addListener(marker, 'mouseout', function() {
+                        infowindow.close();
+                    });
+                })(marker, nameList[i]);
+
+                sidebarMarkerList.push(marker);
+                marker.setMap(map);
+            }
+        });
+    }
+}
+
+function displayInfowindow(marker, title) {
+    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+}
+
+function addHopeList(name, addr, tel){
+    var startPoint = document.querySelector('#starting-point .info h5').innerText;
+    var endPoint = document.querySelector('#ending-point .info h5').innerText;
+    var itemList = document.querySelectorAll('#placesList .item');
+    var listLen = itemList.length;
+    if(listLen.length == 5){
+        alert('출발지, 도착지를 제외하고 5개를 넘길 수 없습니다.');
+        return;
+    }
+
+    if(name == startPoint || name == endPoint){
+        alert('출발지, 도착지로 지정된 곳입니다.');
+        return;
+    }
+
+    for(var i = 0; i < itemList.length; i++){
+        var item = itemList[i];
+        var itemName = item.querySelector('.info span h5').innerText;
+
+        if(name == itemName){
+            alert('이미 추가된 항목은 넣을 수 없습니다.');
+            return;
+        }
+    }
+
+    if (addr.search(/(우)/) != -1){
+        addr = addr.slice(0, addr.search(/(우)/) - 1);
+    }
+
+    var geocoder = new kakao.maps.services.Geocoder();
+    geocoder.addressSearch(addr, function(result, status){
+        if(status === kakao.maps.services.Status.OK){
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x),
+                place = {"name": name, "addr": addr, "tel": tel, "coords": coords};
+            var listEl = document.getElementById('placesList'),
+                menuEl = document.getElementById('menu_wrap'),
+                fragment = document.createDocumentFragment(),
+                bounds = new kakao.maps.LatLngBounds(),
+                listStr = '';
+
+            var placePosition = new kakao.maps.LatLng(place.coords.Ma, place.coords.La),
+                marker = addMarker(placePosition, listLen),
+                itemEl = getListItem(listLen, place);
+                fragment.appendChild(itemEl);
+                listEl.appendChild(fragment);
+                menuEl.scrollTop = 0;
+        }
+    });
+}
+
+function getListItem(index, place) {
+    var el = document.createElement('li'),
+        itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+                    '<div class="info">' +
+                    '   <span>' +
+                    '   <h5>' + place.name + '</h5>' +
+                    '   <button class="btn btn-primary" onclick="setStart(' + (index + 1) + ', \'' + place.name + '\',\'' + place.addr + '\',\'' + place.tel + '\');">출발</button>' +
+                    '   <button class="btn btn-primary" onclick="setEnd(' + (index + 1) + ', \'' + place.name + '\',\'' + place.addr + '\',\'' + place.tel + '\');">도착</button>' +
+                    '   <i class="bi bi-arrow-up" onclick="moveItem(' + (index + 1) + ', \'up\')"></i>' +
+                    '   <i class="bi bi-arrow-down" onclick="moveItem(' + (index + 1) + ', \'down\')"></i>' +
+                    '   <i class="bi bi-x" onclick="deList(' + (index + 1) + ')"></i>' +
+                    '   </span>';
+
+    if (place.addr) {
+        itemStr += '    <span class="addr">' + place.addr + '</span>';
+    }
+
+    itemStr += '  <span class="tel">' + place.tel  + '</span>' +
+                '</div>';
+
+    el.innerHTML = itemStr;
+    el.className = 'item';
+
+    return el;
+}
+
+function addMarker(position, idx, title) {
+    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+        imageSize = new kakao.maps.Size(24, 35),
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+        marker = new kakao.maps.Marker({
+            position: position,
+            image: markerImage
+        });
+
+    for(var i = 0; i < sidebarMarkerList.length; i++){
+        if(sidebarMarkerList[i].getPosition().getLat() == marker.getPosition().getLat() &&
+            sidebarMarkerList[i].getPosition().getLng() == marker.getPosition().getLng()){
+            sidebarMarkerList[i].setMap(null);
+            break;
+        }
+    }
+
+    marker.setMap(map);
+    hopeListmarkers.push(marker);
+    return marker;
+}
+
+function setStart(idx, name, addr, tel){
+    var divBox = document.getElementById('starting-point');
+    var infoBox = divBox.getElementsByClassName('info');
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    lis[idx - 1].remove();
+
+    infoBox[0].getElementsByTagName('h5')[0].innerText = name;
+    infoBox[0].getElementsByClassName('addr')[0].innerText = addr;
+    infoBox[0].getElementsByClassName('tel')[0].innerText = tel;
+
+    var orig_marker = hopeListmarkers[idx - 1];
+    startingMarker = hopeListmarkers[idx - 1];
+
+    var imageSrc = '{% static 'myApp/assets/728937_blue_flag_location_map_marker_icon.png' %}',
+        imageSize = new kakao.maps.Size(24, 35),
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+    startingMarker.setImage(markerImage);
+    orig_marker.setMap(null);
+    hopeListmarkers.splice(idx - 1, 1);
+    startingMarker.setMap(map);
+    refreshHopeList();
+}
+
+function setEnd(idx, name, addr, tel){
+    var divBox = document.getElementById('ending-point');
+    var infoBox = divBox.getElementsByClassName('info');
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    lis[idx - 1].remove();
+
+    infoBox[0].getElementsByTagName('h5')[0].innerText = name;
+    infoBox[0].getElementsByClassName('addr')[0].innerText = addr;
+    infoBox[0].getElementsByClassName('tel')[0].innerText = tel;
+
+    var orig_marker = hopeListmarkers[idx - 1];
+    endingMarker = hopeListmarkers[idx - 1];
+
+    var imageSrc = '{% static 'myApp/assets/728984_flag_red_location_map_marker_icon.png' %}',
+        imageSize = new kakao.maps.Size(24, 35),
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+    endingMarker.setImage(markerImage);
+    orig_marker.setMap(null);
+    hopeListmarkers.splice(idx - 1, 1);
+    endingMarker.setMap(map);
+    refreshHopeList();
+}
+
+function refreshHopeList(){
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    for(var i = 0; i < lis.length; i++){
+        var li = lis[i];
+        var marker = li.getElementsByClassName('markerbg');
+        marker[0].className = "markerbg marker_" + (i + 1);
+
+        var name = li.getElementsByTagName('h5')[0].innerText,
+            addr = li.getElementsByClassName('addr')[0].innerText,
+            tel = li.getElementsByClassName('tel')[0].innerText,
+            deListBtn = li.getElementsByClassName('bi-x')[0],
+            upArrow = li.getElementsByClassName('bi-arrow-up')[0],
+            downArrow = li.getElementsByClassName('bi-arrow-down')[0],
+            btns = li.getElementsByTagName('button');
+        deListBtn.setAttribute("onClick", "deList(" + (i + 1) + ")");
+        upArrow.setAttribute("onClick", "moveItem(" + (i + 1) + ", 'up')");
+        downArrow.setAttribute("onClick", "moveItem(" + (i + 1) + ", 'down')");
+        btns[0].setAttribute("onClick", "setStart(" + (i + 1) + ",\'" + name + "\', \'" + addr + "\', \'" + tel + "\')");
+        btns[1].setAttribute("onClick", "setEnd(" + (i + 1) + ",\'" + name + "\', \'" + addr + "\', \'" + tel + "\')");
+    }
+}
+
+function deList(idx){
+    hopeListmarkers[idx - 1].setMap(null);
+    hopeListmarkers.splice(idx - 1, 1);
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    lis[idx - 1].remove();
+    refreshHopeList();
+}
+
+function deleteEndPointMarker(se){
+    if(se == "start"){
+        if(startingMarker == null){
+            alert('출발지가 없습니다.');
+            return;
+        }
+        startingMarker.setMap(null);
+        startingMarker = null;
+        var divBox = document.getElementById('starting-point'),
+            infoBox = divBox.getElementsByClassName('info');
+
+        infoBox[0].getElementsByTagName('h5')[0].innerText = '';
+        infoBox[0].getElementsByClassName('addr')[0].innerText = '';
+        infoBox[0].getElementsByClassName('tel')[0].innerText = '';
+    }else{
+        if(endingMarker == null){
+                alert('도착지가 없습니다.');
+                return;
+            }
+            endingMarker.setMap(null);
+            endingMarker = null;
+            var divBox = document.getElementById('ending-point'),
+                infoBox = divBox.getElementsByClassName('info');
+
+            infoBox[0].getElementsByTagName('h5')[0].innerText = '';
+            infoBox[0].getElementsByClassName('addr')[0].innerText = '';
+            infoBox[0].getElementsByClassName('tel')[0].innerText = '';
+    }
+}
+
+function moveItem(idx, direction){
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    if((idx == 1 && direction == "up") || (idx == lis.length && direction == "down")){
+        alert('옮길 수 없습니다.');
+        return;
+    }
+    if(direction == "up"){
+        [hopeListmarkers[idx - 1], hopeListmarkers[idx - 2]] = [hopeListmarkers[idx - 2], hopeListmarkers[idx - 1]];
+        var $li = $("#placesList li:nth-child(" + idx + ")");
+        $li.prev().before($li);
+        refreshHopeList();
+    }
+    if(direction == "down"){
+        [hopeListmarkers[idx - 1], hopeListmarkers[idx]] = [hopeListmarkers[idx], hopeListmarkers[idx - 1]];
+        var $li = $("#placesList li:nth-child(" + idx + ")");
+        $li.next().after($li);
+        refreshHopeList();
+    }
+}
+</script>
+<script src="{% static 'myApp/js/sidebar.js' %}"></script>
+</html>

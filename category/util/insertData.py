@@ -7,14 +7,14 @@ sys.path.append('C:\\Users\\JungJiYong\\PycharmProjects\\HotspotProject\\categor
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'category.settings')
 django.setup()
 
-from myApp.models import Hotspot
+from myApp.models import TopFood
 
 def insertHotspot():
-    with open('./csvfile/20220623012515_인기관광지_전체.csv') as in_file:
+    with open('./csvfile/food_recommend_list.csv',encoding='cp949') as in_file:
         rd = csv.reader(in_file)
         next(rd, None)
         for line in rd:
-            Hotspot.objects.create(name=line[1], address=line[2], category=line[3], search=line[4])
+            TopFood.objects.create(place=line[0],score=line[1])
 
 
 insertHotspot()
