@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import connection
 from django.core.paginator import Paginator
@@ -113,7 +114,7 @@ def showTable(request):
 
 
 def show_festival(request):
-    festivals = Festival.objects.all().values().order_by('festival_id')
+    festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
 
     festival_pg = Paginator(festivals, 10)
     page = int(request.GET.get('page', 1))
@@ -140,14 +141,10 @@ def festival_detail(request, festival_id):
 @require_POST
 def create_comment_festival(request, festival_id):
     festival_article = get_object_or_404(Festival, festival_id=festival_id)
-    # if request.method == 'POST':
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
-        # comment_form.save()
         comment = comment_form.save(commit=False)
         comment.festival_id = festival_id
-        # comment.username = request.session['username']
-        # comment.comment_pw = request.session['password']
         comment.save()
         return redirect('festival_detail', festival_id=festival_article.festival_id)
     else:

@@ -13,7 +13,7 @@
                 </div>
                 <p class="address mb-1">{{ spot.address }}</p>
                 <p class="mb-1">
-                    {% if spot.tag != "NaN" %}
+                    {% if spot.tag %}
                         {% for t in spot.tag %}
                         <small>{{ t }}</small>
                         {% endfor %}
@@ -36,7 +36,7 @@
     {% endif %}
 
     <!-- paging -->
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             {% if spot_list.has_previous %}
             <li class="page-item">

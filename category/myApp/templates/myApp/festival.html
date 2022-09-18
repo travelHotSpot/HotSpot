@@ -17,6 +17,7 @@
             display: flex;
             justify-content: center;
             margin: 0 auto;
+            align-items:center;
         }
         .card-title a{
             color: black;
@@ -33,7 +34,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a class="nav-link" href="http://127.0.0.1:8000/">홈</a></li>
-                        <li class="nav-item"><a class="nav-link" href="busan">관광지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/busan">관광지</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="/festival">축제</a></li>
                     </ul>
@@ -42,12 +43,12 @@
         </nav>
     </header>
     <main>
-        <div>
-            <div class="festival_header">
+        <div class="container-md">
+            <div class="festival_header" style="height: 80px;">
                 <h2>Festival List</h2>
             </div>
-            <div class="festival_table">
-                <ul class="list-group list-group-flush">
+            <div class="festival_table col-md">
+                <ul class="list-group list-group-flush" style="width:700px;">
                     {% if festival_list %}
                     {% for row in festival_list %}
                     <li class="list-group-item">
@@ -76,70 +77,36 @@
                     {% endfor %}
                     {% endif %}
                 </ul>
-                <!--            <table>-->
-                <!--                <thead>-->
-                <!--                    <tr>-->
-                <!--                        <th>축제명</th>-->
-                <!--                        <th>개최기간</th>-->
-                <!--                    </tr>-->
-                <!--                </thead>-->
-                <!--                <tbody>-->
-                <!--                {% if festival_list %}-->
-                <!--                    {% for row in festival_list %}-->
-                <!--                    <tr>-->
-                <!--                        <td>-->
-                <!--                            {% if row.image_url %}-->
-                <!--                                <img src="{{ row.image_url }}" width="100" height="100">-->
-                <!--                            {% else %}-->
-                <!--                                <img src="{% static 'myApp/assets/no_image_icon.png' %}" width="100" height="100">-->
-                <!--                            {% endif %}-->
-                <!--                            <a href="{% url 'festival_detail' row.festival_id %}">{{ row.festival_name }}</a></td>-->
-                <!--                        <td>{{ row.start_date|date:'Y-m-d' }} ~ {{ row.end_date|date:'Y-m-d' }}</td>-->
-                <!--                    </tr>-->
-                <!--                    {% endfor %}-->
-                <!--                {% else %}-->
-                <!--                    <tr>-->
-                <!--                        <td>축제 목록을 불러오지 못했거나 등록된 축제가 없습니다.</td>-->
-                <!--                    </tr>-->
-                <!--                {% endif %}-->
-                <!--                </tbody>-->
-                <!--            </table>-->
             </div>
 
             <!-- paging -->
             <div class="festival_paging" style="padding-top: 50px;">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
                         {% if festival_list.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page=1">First</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ festival_list.previous_page_number }}">Previous</a>
-                        </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ festival_list.previous_page_number }}">&laquo;</a>
+                            </li>
                         {% endif %}
 
                         {% for page_number in festival_list.paginator.page_range %}
-                        {% if page_number <= festival_list.number|add:2 and page_number >= festival_list.number|add:-2 %}
-                        {% if festival_list.number == page_number %}
-                        <li class="page-item active">
-                            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                        </li>
-                        {% else %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                        </li>
-                        {% endif %}
-                        {% endif %}
+                            {% if page_number >= festival_list.number|add:-2 and page_number <= festival_list.number|add:2 %}
+                                {% if festival_list.number == page_number %}
+                                    <li class="page-item active">
+                                        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
                         {% endfor %}
 
                         {% if festival_list.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ festival_list.next_page_number }}">Next</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ festival_list.paginator.num_pages }}">Last</a>
-                        </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ festival_list.next_page_number }}">&raquo;</a>
+                            </li>
                         {% endif %}
                     </ul>
                 </nav>
