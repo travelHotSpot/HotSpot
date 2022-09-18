@@ -1,3 +1,6 @@
+<script>
+    var keyword = '{{ keyword|safe }}';
+</script>
 <div class="offcanvas-body px-0">
     {% if spot_list %}
     <ol class="list-group list-group-numbered" id="spots" type="A">
@@ -38,10 +41,10 @@
             {% if spot_list.has_previous %}
             <li class="page-item">
                 {% if keyword %}
-                    <button class="page-link" aria-label="Previous" onclick="searchPlace({{ spot_list.previous_page_number }})"><span aria-hidden="true">&laquo;</span></button>
+                    <button class="page-link" aria-label="Previous" onclick="loadPlace({{ spot_list.previous_page_number }}, null, '{{ keyword }}')"><span aria-hidden="true">&laquo;</span></button>
                 {% else %}
                     {% if sort %}
-                        <button class="page-link" aria-label="Previous" onclick="loadPlace({{ spot_list.previous_page_number }}, '{{ sort }}')"><span aria-hidden="true">&laquo;</span></button>
+                        <button class="page-link" aria-label="Previous" onclick="loadPlace({{ spot_list.previous_page_number }}, '{{ sort }}', keyword)"><span aria-hidden="true">&laquo;</span></button>
                     {% else %}
                         <button class="page-link" aria-label="Previous" onclick="loadPlace({{ spot_list.previous_page_number }}"><span aria-hidden="true">&laquo;</span></button>
                     {% endif %}
@@ -53,20 +56,20 @@
             {% if page >= spot_list.number|add:-2 and page <= spot_list.number|add:2 %}
                 {% if keyword %}
                     {% if page == spot_list.number %}
-                        <li class="page-item active"><button class="page-link" onclick="searchPlace({{ page }})">{{ page }}</button></li>
+                        <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }}, null, '{{ keyword }}')">{{ page }}</button></li>
                     {% else %}
-                        <li class="page-item"><button class="page-link" onclick="searchPlace({{ page }})">{{ page }}</button></li>
+                        <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }}, null, '{{ keyword }}')">{{ page }}</button></li>
                     {% endif %}
                 {% else %}
                     {% if page == spot_list.number %}
                         {% if sort %}
-                            <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}')">{{ page }}</button></li>
+                            <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}', keyword)">{{ page }}</button></li>
                         {% else %}
                             <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }})">{{ page }}</button></li>
                         {% endif %}
                     {% else %}
                         {% if sort %}
-                            <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}')">{{ page }}</button></li>
+                            <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}', keyword)">{{ page }}</button></li>
                         {% else %}
                             <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }})">{{ page }}</button></li>
                         {% endif %}
@@ -79,10 +82,10 @@
             {% if spot_list.has_next %}
             <li class="page-item">
                 {% if keyword %}
-                    <button class="page-link" onclick="searchPlace({{ spot_list.next_page_number }})" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
+                    <button class="page-link" onclick="loadPlace({{ spot_list.next_page_number }}, null, '{{ keyword }}')" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
                 {% else %}
                     {% if sort %}
-                        <button class="page-link" onclick="loadPlace({{ spot_list.next_page_number }}, '{{ sort }}')" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
+                        <button class="page-link" onclick="loadPlace({{ spot_list.next_page_number }}, '{{ sort }}', keyword)" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
                     {% else %}
                         <button class="page-link" onclick="loadPlace({{ spot_list.next_page_number }})" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
                     {% endif %}

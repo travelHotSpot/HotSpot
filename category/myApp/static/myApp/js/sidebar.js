@@ -14,15 +14,35 @@ const facilityIcons = {
         };
 Object.freeze(facilityIcons);
 
-function loadPlace(page, sort=null){
+function loadPlace(page, sort=null, keyword=null){
+    var query;
+    var sorting;
+    if(keyword != null){
+        if(keyword != $('#search-input').val()){
+            query = $('#search-input').val();
+        }else{
+            query = keyword;
+        }
+    }else{
+        query = $('#search-input').val();
+    }
+
+    if(sort == null){
+        var selectBox = document.getElementById('sort');
+        sorting = selectBox.options[selectBox.selectedIndex].value;
+    }else{
+        sorting = sort;
+    }
+
     $('.offcanvas-body').remove();
     $('#offcanvas').append('<div class="offcanvas-body px-0 justify-content-center"><div class="d-flex justify-content-center" style="height: 100%;"><div class="spinner-border align-self-center" role="status"><span class="visually-hidden">Loading...</span></div></div></div>');
 
     $.ajax({
         type: "GET",
-        url: "busan/getPlaceList/",
+        url: "/busan/getPlaceList/",
         data: {
-            sort: sort,
+            sort: sorting,
+            q: query,
             page: page
         },
         success: function(data){
@@ -77,21 +97,17 @@ $('#detailModal').on('show.bs.modal', function(e) {
         }
     });
 
-    if (String(tel) == "NaN"){
+    if(String(tel) != ""){
         modal.find('.tel').empty();
-    }else{
         modal.find('.tel').text(tel);
     }
 
-    if (String(homepage) == "NaN"){
+    if(String(homepage) != ""){
         modal.find('.homepage').empty();
-    }else{
         modal.find('.homepage').append('<a href="' + homepage + '">' + homepage + '</a>');
     }
 
-    if (String(tag) == "NaN"){
-        modal.find('.tag').empty();
-    }else{
+    if (eval(tag).length != 0){
         modal.find('.tag').empty();
         tag = eval(tag);
         tag.forEach(t => {
@@ -99,9 +115,8 @@ $('#detailModal').on('show.bs.modal', function(e) {
         });
     }
 
-    if (String(etc) == "NaN"){
+    if (String(etc) != ""){
         modal.find('.etc').empty();
-    }else{
         modal.find('.etc').text(etc);
     }
 
@@ -142,31 +157,7 @@ $('#offcanvas').on('hidden.bs.offcanvas', function(e) {
     $('.btn-arrow').addClass('bi-arrow-right-square-fill');
 });
 
-// search function
-function searchPlace(page){
-    var query = $('#search-input').val();
-
-    $('.offcanvas-body').remove();
-    $('#offcanvas').append('<div class="offcanvas-body px-0 justify-content-center"><div class="d-flex justify-content-center" style="height: 100%;"><div class="spinner-border align-self-center" role="status"><span class="visually-hidden">Loading...</span></div></div></div>');
-    $.ajaxSetup({
-        headers: { "X-CSRFToken": '{{ csrf_token }}' }
-    });
-    $.ajax({
-        type: "GET",
-        url: "busan/searchPlace/",
-        data: {
-            q: query,
-            page: page
-        },
-        success: function(data){
-            $('.offcanvas-body').remove();
-            $('#offcanvas').append(data);
-            showMarker();
-        },
-    });
-}
-
 // sort
 $('#sort').on('change', function s(e){
-    loadPlace(1, e.target.value);
+    loadPlace(1, e.target.value, keyword);
 });

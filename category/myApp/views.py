@@ -11,7 +11,6 @@ from .models import Trend
 from .models import CommentFestival
 from .models import Place
 from .forms import CommentForm
-import json
 
 
 # Create your views here.
@@ -166,86 +165,40 @@ def delete_comment_festival(request, festival_id, comment_id):
 
 
 def busan(request):
-    # spots = Place.objects.all().values().order_by('place_id')
-    #
-    # for s in spots:
-    #     if s["category"] != "NaN":
-    #         s["category"] = ','.join(eval(s["category"]))
-    #
-    #     if s["operation_time"] != "NaN":
-    #         s["operation_time"] = eval(s["operation_time"])
-    #
-    #     if s["tag"] != "NaN":
-    #         s["tag"] = eval(s["tag"])
-    #
-    #     if s["facility"] != "NaN":
-    #         s["facility"] = eval(s["facility"])
-    #
-    # spot_pg = Paginator(spots, 10)
-    # page = int(request.GET.get('page', 1))
-    # spot_list = spot_pg.get_page(page)
-
-    return render(request, 'myApp/busan.html')#, {'spot_list': spot_list})
+    gu = request.GET.get("gu")
+    return render(request, 'myApp/busan.html', {'gu': gu})
 
 
 def get_place_list(request):
     sort_param = request.GET.get("sort")
+    query_param = request.GET.get("q", None)
+
+    if query_param:
+        spots = Place.objects.filter(Q(name__contains=query_param) | Q(category__contains=query_param) |
+                                     Q(address__contains=query_param) | Q(tag__contains=query_param)) \
+            .distinct().values()
+    else:
+        spots = Place.objects.all().values()
 
     if sort_param:
         if sort_param == "name":
-            spots = Place.objects.all().values().order_by('-name')
-        if sort_param == "rating":
-            spots = Place.objects.all().values().order_by('-weighted_rate')
-        if sort_param == "none":
-            spots = Place.objects.all().values().order_by('place_id')
+            spots = spots.order_by('name')
+        elif sort_param == "rating":
+            spots = spots.order_by('-weighted_rate')
+        else:
+            spots = spots.order_by('place_id')
     else:
-        spots = Place.objects.all().values().order_by('place_id')
+        spots = spots.order_by('place_id')
 
     for s in spots:
-        if s["category"] != "NaN":
-            s["category"] = ','.join(eval(s["category"]))
-
-        if s["operation_time"] != "NaN":
-            s["operation_time"] = eval(s["operation_time"])
-
-        if s["tag"] != "NaN":
-            s["tag"] = eval(s["tag"])
-
-        if s["facility"] != "NaN":
-            s["facility"] = eval(s["facility"])
+        s["category"] = ','.join(eval(s["category"]))
+        s["operation_time"] = eval(s["operation_time"])
+        s["tag"] = eval(s["tag"])
+        s["facility"] = eval(s["facility"])
 
     spot_pg = Paginator(spots, per_page=10)
     page = int(request.GET.get('page', 1))
     spot_list = spot_pg.get_page(page)
 
-    return render(request, 'myApp/busan_offcanvas_body.html', {'spot_list': spot_list, 'sort': sort_param})
-
-
-def search_place(request):
-    url_param = request.GET.get("q", None)
-
-    if url_param:
-        spots = Place.objects.filter(Q(name__contains=url_param) | Q(category__contains=url_param) |
-                                     Q(address__contains=url_param) | Q(tag__contains=url_param))\
-            .distinct().values().order_by('-weighted_rate')
-    else:
-        spots = Place.objects.all().values().order_by('place_id')
-
-    for s in spots:
-        if s["category"] != "NaN":
-            s["category"] = ','.join(eval(s["category"]))
-
-        if s["operation_time"] != "NaN":
-            s["operation_time"] = eval(s["operation_time"])
-
-        if s["tag"] != "NaN":
-            s["tag"] = eval(s["tag"])
-
-        if s["facility"] != "NaN":
-            s["facility"] = eval(s["facility"])
-
-    spot_pg = Paginator(spots, per_page=10)
-    page = int(request.GET.get('page', 1))
-    spot_list = spot_pg.get_page(page)
-
-    return render(request, 'myApp/busan_offcanvas_body.html', {'spot_list': spot_list, 'keyword': url_param})
+    return render(request, 'myApp/busan_offcanvas_body.html',
+                  {'spot_list': spot_list, 'sort': sort_param, 'keyword': query_param})
