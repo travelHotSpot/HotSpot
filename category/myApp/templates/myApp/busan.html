@@ -84,15 +84,15 @@
             #menu_wrap .option button {margin-left:5px;}
             #placesList li {list-style: none;}
             #placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-            #placesList .item span, #starting-point span, #end-point span {display: block;margin-top:4px;}
+            #placesList .item span, #starting-point span, #ending-point span {display: block;margin-top:4px;}
             #placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-            #placesList .item .info, #starting-point .info, #end-point .info{padding:10px 0 10px 55px;}
+            #placesList .item .info, #starting-point .info, #ending-point .info{padding:10px 0 10px 55px;}
             #placesList .info .gray {color:#8a8a8a;}
             #placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-            #placesList .info .tel, #starting-point .info .tel, #end-point .info .tel {color:#009900;}
+            #placesList .info .tel, #starting-point .info .tel, #ending-point .info .tel {color:#009900;}
             #placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
             #starting-point .markerbg {float:left;position:absolute;width:36px; height:37px;background:url({% static 'myApp/assets/728937_blue_flag_location_map_marker_icon.png' %}) no-repeat;}
-            #end-point .markerbg {float:left;position:absolute;width:36px; height:37px;background:url({% static 'myApp/assets/728984_flag_red_location_map_marker_icon.png' %}) no-repeat;}
+            #ending-point .markerbg {float:left;position:absolute;width:36px; height:37px;background:url({% static 'myApp/assets/728984_flag_red_location_map_marker_icon.png' %}) no-repeat;}
             #placesList .item .marker_1 {background-position: 0 -10px;}
             #placesList .item .marker_2 {background-position: 0 -56px;}
             #placesList .item .marker_3 {background-position: 0 -102px}
@@ -117,7 +117,7 @@
     <header style="height: 7px; overflow: auto;">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">HOTSPOT</a>
+                <a class="navbar-brand" href="/">HOTSPOT</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
@@ -146,7 +146,7 @@
                                 <button class="input-group-text border-0" id="search-addon" style="background-color: white;" onclick="loadPlace(1)">
                             {% endif %}
                                 <i class="bi bi-search" style="background-color: white;"></i>
-                            </button>
+                                </button>
                         </div>
                     </div>
                     <div class="row">
@@ -239,7 +239,7 @@
                     <div id="starting-point" style="height:80px;">
                         <span class="markerbg marker_start"></span>
                         <div class="info">
-                            <h5></h5>
+                            <h5></h5><i class="bi bi-x" onclick="deleteEndPointMarker('start')"></i>
                             <span class="addr"></span>
                             <span class="tel"></span>
                         </div>
@@ -247,10 +247,10 @@
                     <hr>
                     <ul id="placesList"></ul>
                     <hr>
-                    <div id="end-point" style="height:80px;">
+                    <div id="ending-point" style="height:80px;">
                         <span class="markerbg marker_start"></span>
                         <div class="info">
-                            <h5></h5>
+                            <h5></h5><i class="bi bi-x" onclick="deleteEndPointMarker('end')"></i>
                             <span class="addr"></span>
                             <span class="tel"></span>
                         </div>
@@ -263,6 +263,8 @@
 <script>
 var sidebarMarkerList = [];
 var hopeListmarkers = [];
+var startingMarker;
+var endingMarker;
 var nameList = [];
 var mapContainer = document.getElementById('map'),
     mapOption = {
@@ -332,8 +334,6 @@ function showMarker(){
     }
 }
 
-// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-// 인포윈도우에 장소명을 표시합니다
 function displayInfowindow(marker, title) {
     var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
 
@@ -342,10 +342,28 @@ function displayInfowindow(marker, title) {
 }
 
 function addHopeList(name, addr, tel){
-    var listLen = document.querySelectorAll('#placesList .item').length;
-    if(listLen == 10){
-        alert('10개를 넘길 수 없음');
+    var startPoint = document.querySelector('#starting-point .info h5').innerText;
+    var endPoint = document.querySelector('#ending-point .info h5').innerText;
+    var itemList = document.querySelectorAll('#placesList .item');
+    var listLen = itemList.length;
+    if(listLen.length == 5){
+        alert('출발지, 도착지를 제외하고 5개를 넘길 수 없습니다.');
         return;
+    }
+
+    if(name == startPoint || name == endPoint){
+        alert('출발지, 도착지로 지정된 곳입니다.');
+        return;
+    }
+
+    for(var i = 0; i < itemList.length; i++){
+        var item = itemList[i];
+        var itemName = item.querySelector('.info span h5').innerText;
+
+        if(name == itemName){
+            alert('이미 추가된 항목은 넣을 수 없습니다.');
+            return;
+        }
     }
 
     if (addr.search(/(우)/) != -1){
@@ -381,6 +399,9 @@ function getListItem(index, place) {
                     '   <h5>' + place.name + '</h5>' +
                     '   <button class="btn btn-primary" onclick="setStart(' + (index + 1) + ', \'' + place.name + '\',\'' + place.addr + '\',\'' + place.tel + '\');">출발</button>' +
                     '   <button class="btn btn-primary" onclick="setEnd(' + (index + 1) + ', \'' + place.name + '\',\'' + place.addr + '\',\'' + place.tel + '\');">도착</button>' +
+                    '   <i class="bi bi-arrow-up" onclick="moveItem(' + (index + 1) + ', \'up\')"></i>' +
+                    '   <i class="bi bi-arrow-down" onclick="moveItem(' + (index + 1) + ', \'down\')"></i>' +
+                    '   <i class="bi bi-x" onclick="deList(' + (index + 1) + ')"></i>' +
                     '   </span>';
 
     if (place.addr) {
@@ -430,19 +451,21 @@ function setStart(idx, name, addr, tel){
     infoBox[0].getElementsByClassName('tel')[0].innerText = tel;
 
     var orig_marker = hopeListmarkers[idx - 1];
+    startingMarker = hopeListmarkers[idx - 1];
 
     var imageSrc = '{% static 'myApp/assets/728937_blue_flag_location_map_marker_icon.png' %}',
         imageSize = new kakao.maps.Size(24, 35),
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-    orig_marker.setImage(markerImage);
+    startingMarker.setImage(markerImage);
     orig_marker.setMap(null);
-    orig_marker.setMap(map);
-    refreshHopeList()
+    hopeListmarkers.splice(idx - 1, 1);
+    startingMarker.setMap(map);
+    refreshHopeList();
 }
 
 function setEnd(idx, name, addr, tel){
-    var divBox = document.getElementById('end-point');
+    var divBox = document.getElementById('ending-point');
     var infoBox = divBox.getElementsByClassName('info');
     var ul = document.getElementById('placesList');
     var lis = ul.getElementsByTagName('li');
@@ -453,14 +476,16 @@ function setEnd(idx, name, addr, tel){
     infoBox[0].getElementsByClassName('tel')[0].innerText = tel;
 
     var orig_marker = hopeListmarkers[idx - 1];
+    endingMarker = hopeListmarkers[idx - 1];
 
     var imageSrc = '{% static 'myApp/assets/728984_flag_red_location_map_marker_icon.png' %}',
         imageSize = new kakao.maps.Size(24, 35),
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-    orig_marker.setImage(markerImage);
+    endingMarker.setImage(markerImage);
     orig_marker.setMap(null);
-    orig_marker.setMap(map);
+    hopeListmarkers.splice(idx - 1, 1);
+    endingMarker.setMap(map);
     refreshHopeList();
 }
 
@@ -475,9 +500,75 @@ function refreshHopeList(){
         var name = li.getElementsByTagName('h5')[0].innerText,
             addr = li.getElementsByClassName('addr')[0].innerText,
             tel = li.getElementsByClassName('tel')[0].innerText,
+            deListBtn = li.getElementsByClassName('bi-x')[0],
+            upArrow = li.getElementsByClassName('bi-arrow-up')[0],
+            downArrow = li.getElementsByClassName('bi-arrow-down')[0],
             btns = li.getElementsByTagName('button');
+        deListBtn.setAttribute("onClick", "deList(" + (i + 1) + ")");
+        upArrow.setAttribute("onClick", "moveItem(" + (i + 1) + ", 'up')");
+        downArrow.setAttribute("onClick", "moveItem(" + (i + 1) + ", 'down')");
         btns[0].setAttribute("onClick", "setStart(" + (i + 1) + ",\'" + name + "\', \'" + addr + "\', \'" + tel + "\')");
         btns[1].setAttribute("onClick", "setEnd(" + (i + 1) + ",\'" + name + "\', \'" + addr + "\', \'" + tel + "\')");
+    }
+}
+
+function deList(idx){
+    hopeListmarkers[idx - 1].setMap(null);
+    hopeListmarkers.splice(idx - 1, 1);
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    lis[idx - 1].remove();
+    refreshHopeList();
+}
+
+function deleteEndPointMarker(se){
+    if(se == "start"){
+        if(startingMarker == null){
+            alert('출발지가 없습니다.');
+            return;
+        }
+        startingMarker.setMap(null);
+        startingMarker = null;
+        var divBox = document.getElementById('starting-point'),
+            infoBox = divBox.getElementsByClassName('info');
+
+        infoBox[0].getElementsByTagName('h5')[0].innerText = '';
+        infoBox[0].getElementsByClassName('addr')[0].innerText = '';
+        infoBox[0].getElementsByClassName('tel')[0].innerText = '';
+    }else{
+        if(endingMarker == null){
+                alert('도착지가 없습니다.');
+                return;
+            }
+            endingMarker.setMap(null);
+            endingMarker = null;
+            var divBox = document.getElementById('ending-point'),
+                infoBox = divBox.getElementsByClassName('info');
+
+            infoBox[0].getElementsByTagName('h5')[0].innerText = '';
+            infoBox[0].getElementsByClassName('addr')[0].innerText = '';
+            infoBox[0].getElementsByClassName('tel')[0].innerText = '';
+    }
+}
+
+function moveItem(idx, direction){
+    var ul = document.getElementById('placesList');
+    var lis = ul.getElementsByTagName('li');
+    if((idx == 1 && direction == "up") || (idx == lis.length && direction == "down")){
+        alert('옮길 수 없습니다.');
+        return;
+    }
+    if(direction == "up"){
+        [hopeListmarkers[idx - 1], hopeListmarkers[idx - 2]] = [hopeListmarkers[idx - 2], hopeListmarkers[idx - 1]];
+        var $li = $("#placesList li:nth-child(" + idx + ")");
+        $li.prev().before($li);
+        refreshHopeList();
+    }
+    if(direction == "down"){
+        [hopeListmarkers[idx - 1], hopeListmarkers[idx]] = [hopeListmarkers[idx], hopeListmarkers[idx - 1]];
+        var $li = $("#placesList li:nth-child(" + idx + ")");
+        $li.next().after($li);
+        refreshHopeList();
     }
 }
 </script>
