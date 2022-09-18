@@ -3,20 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="C:\Users\JungJiYong\Documents\카카오톡 받은 파일\food_recommend_list.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="C:\Users\JungJiYong\Documents\카카오톡 받은 파일\travel_recommend_list.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\category\util\csvfile\all_travel_score_list.csv">
           <value>
             <Attribute>
