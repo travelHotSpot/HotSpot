@@ -116,6 +116,7 @@ class Place(models.Model):
         managed = False
         db_table = 'place'
 
+
 class MainFood(models.Model):
     place_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
@@ -157,6 +158,7 @@ class MainPlace(models.Model):
         managed = False
         db_table = 'main_place'
 
+
 class TopFood(models.Model):
     place = models.CharField(primary_key=True, max_length=45)
     score = models.FloatField(blank=True, null=True)
@@ -173,7 +175,3 @@ class TopPlace(models.Model):
     class Meta:
         managed = False
         db_table = 'top_place'
-
-
-
-
