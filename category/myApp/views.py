@@ -174,10 +174,8 @@ def get_place_list(request):
             spots = spots.order_by('name')
         elif sort_param == "rating":
             spots = spots.order_by('-weighted_rate')
-        else:
-            spots = spots.order_by('place_id')
     else:
-        spots = spots.order_by('place_id')
+        spots = spots.order_by('-weighted_rate')
 
     for s in spots:
         s["category"] = ','.join(eval(s["category"]))
