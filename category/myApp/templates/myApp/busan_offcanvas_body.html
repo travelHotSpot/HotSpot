@@ -53,31 +53,31 @@
             </li>
             {% endif %}
             {% for page in spot_list.paginator.page_range %}
-            {% if page >= spot_list.number|add:-2 and page <= spot_list.number|add:2 %}
-                {% if keyword %}
-                    {% if page == spot_list.number %}
-                        <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }}, null, '{{ keyword }}')">{{ page }}</button></li>
-                    {% else %}
-                        <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }}, null, '{{ keyword }}')">{{ page }}</button></li>
-                    {% endif %}
-                {% else %}
-                    {% if page == spot_list.number %}
-                        {% if sort %}
-                            <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}', keyword)">{{ page }}</button></li>
+                {% if page >= spot_list.number|add:-2 and page <= spot_list.number|add:2 %}
+                    {% if keyword %}
+                        {% if page == spot_list.number %}
+                            <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }}, null, '{{ keyword }}')">{{ page }}</button></li>
                         {% else %}
-                            <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }})">{{ page }}</button></li>
+                            <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }}, null, '{{ keyword }}')">{{ page }}</button></li>
                         {% endif %}
                     {% else %}
-                        {% if sort %}
-                            <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}', keyword)">{{ page }}</button></li>
+                        {% if page == spot_list.number %}
+                            {% if sort %}
+                                <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}', keyword)">{{ page }}</button></li>
+                            {% else %}
+                                <li class="page-item active"><button class="page-link" onclick="loadPlace({{ page }})">{{ page }}</button></li>
+                            {% endif %}
                         {% else %}
-                            <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }})">{{ page }}</button></li>
+                            {% if sort %}
+                                <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }}, '{{ sort }}', keyword)">{{ page }}</button></li>
+                            {% else %}
+                                <li class="page-item"><button class="page-link" onclick="loadPlace({{ page }})">{{ page }}</button></li>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
+                {% elif page >= spot_list.number|add:-2 and page <= spot_list.number|add:2 %}
+                    ..
                 {% endif %}
-            {% elif page >= spot_list.number|add:-2 and page <= spot_list.number|add:2 %}
-            ..
-            {% endif %}
             {% endfor %}
             {% if spot_list.has_next %}
             <li class="page-item">
