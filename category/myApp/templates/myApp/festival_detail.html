@@ -145,32 +145,32 @@
                 <div id="carouselIndicators" class="carousel slide" data-bs-ride="true">
                     <div class="carousel-indicators">
                         {% if festival_img %}
-                        {% for row in festival_img %}
-                        {% if forloop.first %}
-                        <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="{{ forloop.counter0 }}" class="active" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
-                        {% else %}
-                        <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"></button>
-                        {% endif %}
-                        {% endfor %}
+                            {% for row in festival_img %}
+                                {% if forloop.first %}
+                                    <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="{{ forloop.counter0 }}" class="active" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+                                {% else %}
+                                    <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"></button>
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     </div>
                     <div class="carousel-inner" style="height: 627px;">
                         {% if festival_img %}
-                        {% for img_info in festival_img %}
-                        {% if forloop.first %}
-                        <div class="carousel-item active" style="width: 940px; height: 100%;">
-                            <img src="{{ img_info.image_url }}" class="d-block w-100" alt="...">
-                        </div>
+                            {% for img_info in festival_img %}
+                                {% if forloop.first %}
+                                    <div class="carousel-item active" style="width: 940px; height: 100%;">
+                                    <img src="{{ img_info.image_url }}" class="d-block w-100" alt="...">
+                                    </div>
+                                {% else %}
+                                    <div class="carousel-item" style="width: 940px; height: 100%;">
+                                        <img src="{{ img_info.image_url }}" class="d-block w-100" alt="...">
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                         {% else %}
-                        <div class="carousel-item" style="width: 940px; height: 100%;">
-                            <img src="{{ img_info.image_url }}" class="d-block w-100" alt="...">
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                        {% else %}
-                        <div class="carousel-item">
-                            <img src="{% static '/myApp/assets/no_image_icon.png' %}" class="d-block w-100" alt="...">
-                        </div>
+                            <div class="carousel-item">
+                                <img src="{% static '/myApp/assets/no_image_icon.png' %}" class="d-block w-100" alt="...">
+                            </div>
                         {% endif %}
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators" data-bs-slide="prev">

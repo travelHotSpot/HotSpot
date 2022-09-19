@@ -102,7 +102,7 @@ def showTable(request):
 
 
 def show_festival(request):
-    festivals = Festival.objects.all().values().order_by('-end_date')
+    festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
 
     festival_pg = Paginator(festivals, 10)
     page = int(request.GET.get('page', 1))
@@ -129,7 +129,6 @@ def festival_detail(request, festival_id):
 @require_POST
 def create_comment_festival(request, festival_id):
     festival_article = get_object_or_404(Festival, festival_id=festival_id)
-    # if request.method == 'POST':
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
         # comment_form.save()
