@@ -11,6 +11,7 @@ from .models import Trend
 from .models import CommentFestival
 from .models import Place
 from .forms import CommentForm
+from datetime import datetime
 
 
 # Create your views here.
@@ -102,7 +103,7 @@ def showTable(request):
 
 
 def show_festival(request):
-    festivals = Festival.objects.all().values().order_by('-end_date')
+    festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
 
     festival_pg = Paginator(festivals, 10)
     page = int(request.GET.get('page', 1))

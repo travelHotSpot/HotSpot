@@ -2,7 +2,6 @@
 {% load static %}
 <html lang="en">
     <head>
-
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
@@ -16,134 +15,48 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
         <script>document.addEventListener('contextmenu', event => event.preventDefault());</script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <style>
-            @keyframes fadeInLeft {
-                0% {
-                    opacity: 0;
-                    transform: translate3d(-50%, 0, 0);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateZ(0);
-                }
-            }
-            @keyframes fadeInRight {
-                0% {
-                    opacity: 0;
-                    transform: translate3d(50%, 0, 0);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateZ(0);
-                }
-            }
-            .row.content {
-                display : flex;
-                flex : 0 0 auto;
-                position : absolute;
-                top : 100px;
-                left : 150px;
-                width : 1000px;
-                height : 800px;
-                float: left;
-                animation : fadeInLeft 1s;
-            }
-            .row.content svg {
-                transform: translate(500,0);
-                viewBox: 0 0 1000 900;
-                height: 500;
-            }
-
-            #info-box {
-                display: none;
-                position: fixed;
-                top: 0px;
-                left: 110px;
-                z-index: 1;
-                background-color: #ffffff;
-                border: 2px solid #BF0A30;
-                border-radius: 5px;
-                padding: 5px;
-                font-family: arial;
-                width: 400px;
-                text-align: center;
-                font-family: 'Gamja Flower', cursive;
-            }
-            path:hover{
-                cursor:pointer;
-            }
-            #festival tr td{
-                animation: fadeInRight 1s;
-                padding:15px;
-            }
-            }
-        </style>
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'myApp/css/styles.css' %}" rel="stylesheet" />
         <script>document.addEventListener('contextmenu', event => event.preventDefault());</script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
-    <body style = "background-color:#aed3ec; font-family: 'Gamja Flower', cursive; font-size : large">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <div class="container px-4 px-lg-5">
+    <body style = "font-family: 'Gamja Flower', cursive; font-size : large">
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
                 <a class="navbar-brand">Busan Hotspot</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a class="nav-link" href="http://127.0.0.1:8000/">홈</a></li>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/">홈</a></li>
                         <li class="nav-item"><a class="nav-link" href="/busan">관광지</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="/festival">축제</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">대쉬보드</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Page Content-->
-        <br><br>
-        <section>
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5">
+        <!-- Header-->
+        <header class="bg-skyblue py-5">
+            <div class="container px-5">
+                <div class="row gx-5 justify-content-center">
                     <div class="col-lg-6">
-                        <h1 class="mt-5" style="font-weight:bold;">Busan Hotspot</h1>
-                        <p style="font-weight: bold">여행 가고 싶은 지역에 마우스를 올려보세요!<br>빅데이터를 활용한 지역별 관광지 top3입니다</p>
+                        <div class="text-center my-5">
+                            <h1 class="display-5 fw-bolder text-dark mb-2">Busan Hotspot</h1>
+                            <p class="lead text-dark-50 mb-4">여행 가고 싶은 지역에 마우스를 올려보세요!<br>빅데이터를 활용한 지역별 관광지 top3입니다</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <div class="row content">
+        </header>
+        <!-- Map Image-->
+        <div class="row content" style="background-color: skyblue;margin-right:0px;">
             <div id="info-box"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">
-                <defs>
-                    <style type="text/css">
-                        .land {
-                            fill: #f0e68c;
-                            fill-opacity: 1;
-                            stroke: black;
-                            stroke-opacity: 1;
-                            stroke-width: 0.5;
-                            transform: scale(1);
-                            -webkit-transform: scale(1);
-                            -moz-transform: scale(1);
-                            -ms-transform: scale(1);
-                            -o-transform: scale(1);
-                            transition: all 0.3s ease-in-out;
-                        }
-                        .land:hover {
-                            fill-opacity: 1.0;
-                            fill: skyblue;
-                        }
-                        .land:active{
-                            fill:black;
-                        }
-                        g {
-                            position : absolute;
-                            right : 300px;
-                        }
-
-                    </style>
-                </defs>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="200 0 300 730" width="500" height="600">
             <g xmlns="http://www.w3.org/2000/svg" id="레이어_2">
                 <g id="해운대구" class="land">
                     <path title="해운대구" class="land" fill="#FFFFFF" stroke="#888888" stroke-miterlimit="10" d="M690.966,415.793c1.79-3.702-3.578-7.402-3.578-11.104   c1.789-3.701,1.789-5.552,1.789-9.253s-3.579-1.85-5.368-3.701c-1.789-1.852-5.368-3.703-7.158-3.703   c-3.579,0-7.156,1.851-7.156,5.553c1.788,1.85-1.79,3.7-1.79,5.551c-5.367,1.851-3.579,9.255-8.946,11.105   c-3.578,1.849-3.578-3.702-7.158-1.851c0-1.852,0-1.852,0-3.703c0-3.701,0-5.552,3.58-5.552c0-3.701-1.789-5.551-5.368-7.401   c-10.736-1.852-19.682-5.553-28.628-11.106v-1.851c-1.789-5.552-8.947,0-10.735-7.402c1.788-1.85,1.788-7.403,5.368-7.403   c0-3.701,7.157-5.553,7.157-9.254s0-5.552,0-9.253c1.789-1.85,3.577-3.702,3.577-7.404c5.368-7.401-5.367-9.253-5.367-14.805   c-3.578-1.851-3.578-7.403-8.947-7.403c-1.788-1.851-5.367,1.852-7.156-1.851c0-1.851,0-1.851,0-3.702   c0-1.849,1.79-3.701,3.579-3.701c1.79-1.851-1.789-3.701-1.789-5.553c0-5.552-3.579-11.105-8.946-9.253   c0-3.702-1.789,0-3.579-1.852l-1.79-1.85c-1.789-7.403-1.789,5.552-3.577,0c-0.365-0.377-0.701-0.726-1.035-1.07   c-0.387,2.933-0.872,6.087-4.333,8.473c0,1.851,1.79,5.552-1.789,7.404c-1.79,5.553-7.157,7.402-8.945,12.954   c-7.157,5.552-7.157,18.508-17.894,16.656c-5.368,1.852-8.946,7.403-10.734,12.956c-1.79,5.552,5.367,9.253,3.578,14.806   c-7.601-1.572-11.329,3.534-15.571,8.512c1.596,3.349,3.046,6.847,3.046,11.845c0,3.703,5.368,0,5.368,3.703   c-1.789,1.85,3.579,1.85,1.789,3.701c0,1.851-3.578,3.703-1.789,5.553c0,3.7,0,7.402,0,11.103   c1.597,4.958,1.767,11.383,1.787,16.657c0.448,0,0.896,0,1.792,0c-1.565,3.235,2.336,3.644,2.152,6.166l1.09,2.855l2.796,6.247   l4.137,8.561l3.914,5.898l1.006,3.585c0,0,0.671,0.694,1.006,0.694c0.335,0,1.118,0,1.118,0c0.896,1.042,0.896,1.042,0.896,1.042   l9.058,8.098l2.684-0.347l0.223,2.197c0,0-0.336,1.156,0,1.62c0.336,0.463,1.342,1.041,1.342,1.041s0.448,0.116,0.896-0.463   c0.446-0.578-0.559,0.694,0.446-0.578c1.006-1.272,1.006-1.272,1.006-1.272s-0.305,0.09-0.344,0.102   c0.039-0.012,0.344-0.102,0.344-0.102c0.783-0.231,0.783-0.347,1.342-0.116c0.559,0.233,1.454,1.505,1.454,1.505l3.69,4.278   c0,0-1.789,1.736-2.125,2.082c-0.334,0.346-0.895-0.115-0.895,0.925c0,1.042,0.113,2.198,0.448,2.661   c0.336,0.462-0.224-0.347,0.336,0.462c0.559,0.81,0.672,0.693,1.677,1.735c1.007,1.042,3.468,2.313,3.914,2.544   c0.448,0.232,1.119,0.463,1.454,0.463c0.335,0,3.019-0.81,3.019-0.81s-0.558,1.273,0.56-1.156c1.117-2.43,0.447-1.736,1.23-2.892   c0.782-1.157-1.23,0.577,1.341-1.388c2.572-1.966,2.125-1.966,2.572-1.966s2.349-0.463,2.349-0.463c0.895,0,0.895,0,0.895,0   s-0.447,0.463-1.007,1.388c-0.559,0.925-0.223-0.231-1.229,1.736c-1.007,1.965-1.565,2.774-2.124,3.469   c-0.561,0.694-0.113-1.504-0.561,0.694c-0.446,2.199-0.446,2.777-0.446,2.777s-1.455,1.042,0.335,0.694   c1.789-0.348,0.559-0.348,2.348-0.462c1.789-0.116,3.355,0,3.355,0s0.335,0.23,0.67-0.116c0.335-0.347,0.671-0.926,0.671-1.389   c0-0.463-0.783,2.082,0-0.463c0.784-2.544,0.223-1.503,1.005-3.008c0.784-1.503,0.337-1.156,1.231-2.313   c0.896-1.155,1.454-1.388,1.454-1.966c0-0.579,0.784-0.887,0.784-0.887s-0.15,0.154,1.341-0.309   c1.491-0.462,2.087-0.308,2.535-0.771c0.448-0.463,1.79-0.925,2.237-1.234c0.447-0.307,0.596,0.618,2.385-0.307   c1.788-0.926-0.149-0.463,2.385-0.926s3.578-0.463,5.368-0.618c1.789-0.154,1.938-0.154,2.385-0.154   c0.447,0,4.026,0.153,4.474,0.462c0.447,0.31,0,0.156,0.894,1.235c0.895,1.078,1.342,1.387,2.238,2.005   c0.894,0.617,1.043,0.925,1.639,1.542c0.597,0.617,2.535,2.468,2.981,2.775c0.447,0.309-1.789-0.153,0.447,0.309   c2.237,0.461,1.342,0.771,2.834,0.924c1.491,0.155,1.491,0.155,1.491,0.155l0.894-0.308c0,0,1.64,0,2.237,0   c0.596,0,0.148,0.615,1.341,0c1.193-0.617,1.492-0.31,2.535-1.233c1.043-0.926,2.088,0.153,2.983-1.851   c0.894-2.007,0.297-1.082,0.894-2.007c0.598-0.925,1.045-0.771,1.343-1.696c0.297-0.926-1.045-0.31,1.192-1.543   c2.236-1.233,0.446-1.079,2.833-1.233c2.385-0.154,3.578-0.002,4.024-0.154c0.447-0.154-0.746,0.619,0.447-0.154   c1.194-0.772,0.896-0.154,1.939-1.542c1.043-1.389-0.299-0.156,1.64-2.314c1.939-2.159,1.342-0.771,2.684-2.622   c1.342-1.85,1.343-1.696,1.939-2.931c0.595-1.233,0.597-0.308,0.895-2.159c0.298-1.851,0-0.616,0.448-2.775   c0.446-2.16,0.446-2.005,0.446-3.394c0-1.387-0.149,2.313-0.149-2.314c0-4.626-0.298-4.471,0.299-5.551   c0.596-1.08,1.192-0.154,1.341-2.467c0.149-2.314,0.149-2.314,0.149-3.548c0-1.232,0.15-1.85-0.297-3.084   c-0.447-1.234-0.447-1.234-0.447-1.234s0.746-0.618,3.131-2.314c2.386-1.697,1.043-0.926,2.386-1.697   c1.341-0.771,0.446-0.154,1.341-0.771c0.896-0.616,0.747-0.771,1.641-0.925c0.895-0.154,1.49-0.309,1.49-0.309s0.597,0,1.343,0.924   c0.746,0.925,0.448,0.308,0.746,0.925c0.299,0.618,0.299,0.618,0.299,0.618s0.744,0.923,1.192,0.771   c0.447-0.154,0.745,0.615,0.745-1.389c0-2.003,0-2.159,0-2.775c0-0.092,0-0.143,0-0.177c0-0.023,0-0.044,0-0.049   c0-0.057,0-0.167,0-0.391c0-0.925,0.299-1.697,0.896-2.16c0.554-0.43-1.72,0.205,0.111-0.323   C690.551,420.893,692.038,418.011,690.966,415.793z" id="해운대구"/>
@@ -305,43 +218,80 @@
                 </g>
             </g></svg>
         </div>
-        <br>
-        <div id = "festival" style="position: absolute; left : 60%; float:left;">
-            <table>
-                <caption style="caption-side:top; text-align:center;"><a style="font-size:150%;color:black;">부산 근처 진행중인 축제</a><br>이미지 클릭시 상세화면으로 이동합니다</caption>
-                <tr>
-                {% if festival_list %}
-                    {% for row in festival_list %}
-                            {% if row.image_url %}
-                            <td><a href="{% url 'festival_detail' row.festival_id %}"><img src="{{ row.image_url }}" width="200" height="200"></a></td>
-                            {% endif %}
-                    {% endfor %}
-                {% else %}
-                축제 목록을 불러오지 못했거나 등록된 축제가 없습니다.
-                {% endif %}
-                </tr>
-                <tr style="font-size:140%">
+        <!--Hotspot section-->
+        <section class="py-5 border-bottom" id="features">
+            <div class="container px-5 my-5">
+                <div class="row gx-5">
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
+                        <h2 class="h4 fw-bolder">Featured title</h2>
+                        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                        <a class="text-decoration-none" href="#!">
+                            Call to action
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-building"></i></div>
+                        <h2 class="h4 fw-bolder">Featured title</h2>
+                        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                        <a class="text-decoration-none" href="#!">
+                            Call to action
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
+                        <h2 class="h4 fw-bolder">Featured title</h2>
+                        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                        <a class="text-decoration-none" href="#!">
+                            Call to action
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Festival section-->
+        <section class="bg-light py-5 border-bottom">
+            <div class="container px-5 my-5">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bolder">부산 인근 축제</h2>
+                    <p class="lead mb-0">현재 진행죽인 축제들입니다</p>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <!-- Pricing card free-->
                     {% if festival_list %}
                     {% for row in festival_list %}
-                        {% if row.image_url %}
-                        <td>{{ row.festival_name }}</td>
-                        {% endif %}
+                    {% if row.image_url %}
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card mb-5 mb-xl-0">
+                            <div class="card-body p-5">
+                                <div class="mb-3">
+                                    <a href="{% url 'festival_detail' row.festival_id %}"><img src="{{ row.image_url }}" width="300" height="300"></a>
+                                </div>
+                                <ul class="list-unstyled mb-4">
+                                    <li class="mb-2">
+                                        <i class="bi bi-check text-primary"></i>
+                                        <strong>{{ row.festival_name }}</strong>
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check text-primary"></i>
+                                        {{ row.start_date|date:'Y-m-d' }} ~ {{ row.end_date|date:'Y-m-d' }}
+                                    </li>
+                                </ul>
+                                <div class="d-grid"><a class="btn btn-outline-primary" href="{% url 'festival_detail' row.festival_id %}">자세히 보기</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                     {% endfor %}
-                    {% else %}{% endif %}
-                </tr>
-                <tr style="font-size:130%">
-                    {% if festival_list %}
-                    {% for row in festival_list %}
-                        {% if row.image_url %}
-                        <td>{{ row.start_date|date:'Y-m-d' }} ~ {{ row.end_date|date:'Y-m-d' }}</td>
-                        {% endif %}
-                    {% endfor %}
-                    {% else %}{% endif %}
-                </tr>
-            </table>
-        </div>
-        </div>
-
+                    {% else %}
+                    축제 목록을 불러오지 못했거나 등록된 축제가 없습니다.
+                    {% endif %}
+                </div>
+            </div>
+        </section>
         <div class="map-tooltip"></div>
         <script>
             var hot = "{{hotspot}}";
