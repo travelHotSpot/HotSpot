@@ -1,8 +1,8 @@
 @charset "UTF-8";
 /*!
-* Start Bootstrap - The Big Picture v5.0.5 (https://startbootstrap.com/template/the-big-picture)
+* Start Bootstrap - Business Frontpage v5.0.8 (https://startbootstrap.com/template/business-frontpage)
 * Copyright 2013-2022 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-the-big-picture/blob/master/LICENSE)
+* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-business-frontpage/blob/master/LICENSE)
 */
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
@@ -7516,7 +7516,7 @@ textarea.form-control-lg {
 }
 
 .pt-5 {
-  padding-top: 3rem !important;
+  padding-top: 0rem !important;
 }
 
 .pe-0 {
@@ -11285,4 +11285,79 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+.feature {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+  width: 4rem;
+  font-size: 2rem;
+}
+
+@keyframes fadeInLeft {
+  0% {
+      opacity: 0;
+      transform: translate3d(-50%, 0, 0);
+  }
+  to {
+      opacity: 1;
+      transform: translateZ(0);
+  }
+}
+@keyframes fadeInRight {
+  0% {
+      opacity: 0;
+      transform: translate3d(50%, 0, 0);
+  }
+  to {
+      opacity: 1;
+      transform: translateZ(0);
+  }
+}
+
+#info-box {
+  display: none;
+  position: fixed;
+  top: 0px;
+  left: 110px;
+  z-index: 1;
+  background-color: #ffffff;
+  border: 2px solid #BF0A30;
+  border-radius: 5px;
+  padding: 5px;
+  font-family: arial;
+  width: 400px;
+  text-align: center;
+  font-family: 'Gamja Flower', cursive;
+}
+path:hover{
+  cursor:pointer;
+}
+.land {
+    fill: #f0e68c;
+    fill-opacity: 1;
+    stroke: black;
+    stroke-opacity: 1;
+    stroke-width: 0.5;
+
+}
+.land:hover {
+    fill-opacity: 1.0;
+    fill: #ffe2ed;
+}
+.land:active{
+    fill:black;
+}
+g {
+    position : absolute;
+    right : 300px;
+}
+.row.content {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    top: -50px;
+    height: 600px;
+
 }

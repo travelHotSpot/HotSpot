@@ -16,7 +16,9 @@ from .models import FestivalImg
 from .models import Trend
 from .models import CommentFestival
 from .models import Place
+from .models import MainSpot
 from .forms import CommentForm
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 key_file = os.path.join(BASE_DIR, 'keys.json')
@@ -29,6 +31,7 @@ def showTable(request):
     sqlQuery = [0] * 17
     fetchResultQuery = [0] * 17
     hotspot_list = [0] * 51
+
     with connection.cursor() as cursor:
 
         sqlQuery[0] = "SELECT * FROM testdatabase.place JOIN testdatabase.top_place WHERE testdatabase.place.name = testdatabase.top_place.place AND address LIKE '부산 해운대구%' ORDER BY SCORE DESC LIMIT 3 "
@@ -103,19 +106,51 @@ def showTable(request):
                 hotspot_list[j] = ({'Name': row[1]})
                 j = j + 1
 
-        festivals = Festival.objects.all().values().order_by('-end_date')
 
-        festival_pg = Paginator(festivals, 4)
+        sort_param = request.GET.get("sort")
+        query_param = request.GET.get("q", None)
+
+        if query_param:
+            spots = MainSpot.objects.filter(Q(name__contains=query_param) | Q(category__contains=query_param) |
+                                         Q(address__contains=query_param) | Q(tag__contains=query_param)) \
+                .distinct().values()
+        else:
+            spots = MainSpot.objects.all().values()
+
+        if sort_param:
+            if sort_param == "name":
+                spots = spots.order_by('name')
+            elif sort_param == "rating":
+                spots = spots.order_by('-weighted_rate')
+        else:
+            spots = spots.order_by('-weighted_rate')
+
+        for s in spots:
+            s["category"] = ','.join(eval(s["category"]))
+            s["operation_time"] = eval(s["operation_time"])
+            s["tag"] = eval(s["tag"])
+            s["facility"] = eval(s["facility"])
+
+        spot_pg = Paginator(spots, per_page=8)
+
+        page = int(request.GET.get('page', 1))
+        spot_list = spot_pg.get_page(page)
+
+
+        festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
+
+        festival_pg = Paginator(festivals, 3)
         page = int(request.GET.get('page', 1))
         festival_list = festival_pg.get_page(page)
 
-    return render(request, 'myApp/index.html', {'hotspot': hotspot_list, 'festival_list': festival_list})
+    return render(request, 'myApp/index.html', {'hotspot': hotspot_list, 'festival_list': festival_list, 'spot_list': spot_list})
+
 
 
 def show_festival(request):
     festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
 
-    festival_pg = Paginator(festivals, 10)
+    festival_pg = Paginator(festivals, 6)
     page = int(request.GET.get('page', 1))
     festival_list = festival_pg.get_page(page)
 
@@ -237,3 +272,4 @@ def get_route(request):
         return JsonResponse(json.dumps(edited_response, ensure_ascii=False), safe=False)
     else:
         return JsonResponse(response, safe=False)
+

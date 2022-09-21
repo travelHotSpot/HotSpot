@@ -138,6 +138,7 @@ class MainFood(models.Model):
         db_table = 'main_food'
 
 
+
 class MainPlace(models.Model):
     place_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
