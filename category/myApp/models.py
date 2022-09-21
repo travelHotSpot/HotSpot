@@ -138,7 +138,6 @@ class MainFood(models.Model):
         db_table = 'main_food'
 
 
-
 class MainSpot(models.Model):
     place_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
@@ -157,7 +156,7 @@ class MainSpot(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'main_place'
+        db_table = 'main_spot'
 
 
 class TopFood(models.Model):

@@ -106,24 +106,7 @@ def showTable(request):
                 hotspot_list[j] = ({'Name': row[1]})
                 j = j + 1
 
-
-        sort_param = request.GET.get("sort")
-        query_param = request.GET.get("q", None)
-
-        if query_param:
-            spots = MainSpot.objects.filter(Q(name__contains=query_param) | Q(category__contains=query_param) |
-                                         Q(address__contains=query_param) | Q(tag__contains=query_param)) \
-                .distinct().values()
-        else:
-            spots = MainSpot.objects.all().values()
-
-        if sort_param:
-            if sort_param == "name":
-                spots = spots.order_by('name')
-            elif sort_param == "rating":
-                spots = spots.order_by('-weighted_rate')
-        else:
-            spots = spots.order_by('-weighted_rate')
+        spots = MainSpot.objects.all().values().order_by('-weighted_rate')
 
         for s in spots:
             s["category"] = ','.join(eval(s["category"]))
@@ -135,7 +118,6 @@ def showTable(request):
 
         page = int(request.GET.get('page', 1))
         spot_list = spot_pg.get_page(page)
-
 
         festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
 
