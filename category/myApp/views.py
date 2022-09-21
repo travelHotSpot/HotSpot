@@ -1,3 +1,8 @@
+import requests
+import json
+import os
+from pathlib import Path
+from django.http import HttpResponse, JsonResponse
 from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import connection
@@ -13,6 +18,11 @@ from .models import CommentFestival
 from .models import Place
 from .forms import CommentForm
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+key_file = os.path.join(BASE_DIR, 'keys.json')
+with open(key_file) as in_file:
+    keys = json.loads(in_file.read())
+    kakao_key = keys["KAKAO_API"]
 
 # Create your views here.
 def showTable(request):
@@ -189,3 +199,41 @@ def get_place_list(request):
 
     return render(request, 'myApp/busan_offcanvas_body.html',
                   {'spot_list': spot_list, 'sort': sort_param, 'keyword': query_param})
+
+
+def get_route(request):
+    origin = request.GET.get("origin")
+    destination = request.GET.get("destination")
+    waypoints = request.GET.get("waypoints")
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'KakaoAK ' + kakao_key,
+    }
+    json_data = {
+        'priority': 'RECOMMEND',
+        'car_type': 1,
+        'origin': json.loads(origin),
+        'destination': json.loads(destination),
+        'waypoints': json.loads(waypoints),
+    }
+
+    response = requests.post('https://apis-navi.kakaomobility.com/v1/waypoints/directions', headers=headers,
+                             json=json_data)
+    response = response.json()
+
+    if response["routes"][0]["result_code"] == 0:
+
+        positions = []
+        for section in response["routes"][0]["sections"]:
+            for road in section["roads"]:
+                for position in road["vertexes"]:
+                    positions.append(position)
+
+        edited_response = {
+            "summary": response['routes'][0]['summary'],
+            "positions": positions
+        }
+        return JsonResponse(json.dumps(edited_response, ensure_ascii=False), safe=False)
+    else:
+        return JsonResponse(response, safe=False)
