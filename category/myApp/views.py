@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 from django.http import HttpResponse, JsonResponse
+from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import connection
 from django.core.paginator import Paginator
@@ -17,7 +18,7 @@ from .models import CommentFestival
 from .models import Place
 from .models import MainSpot
 from .forms import CommentForm
-from datetime import datetime
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 key_file = os.path.join(BASE_DIR, 'keys.json')
@@ -105,6 +106,7 @@ def showTable(request):
                 hotspot_list[j] = ({'Name': row[1]})
                 j = j + 1
 
+
         sort_param = request.GET.get("sort")
         query_param = request.GET.get("q", None)
 
@@ -130,8 +132,10 @@ def showTable(request):
             s["facility"] = eval(s["facility"])
 
         spot_pg = Paginator(spots, per_page=8)
+
         page = int(request.GET.get('page', 1))
         spot_list = spot_pg.get_page(page)
+
 
         festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
 
@@ -140,6 +144,7 @@ def showTable(request):
         festival_list = festival_pg.get_page(page)
 
     return render(request, 'myApp/index.html', {'hotspot': hotspot_list, 'festival_list': festival_list, 'spot_list': spot_list})
+
 
 
 def show_festival(request):
@@ -267,3 +272,4 @@ def get_route(request):
         return JsonResponse(json.dumps(edited_response, ensure_ascii=False), safe=False)
     else:
         return JsonResponse(response, safe=False)
+
