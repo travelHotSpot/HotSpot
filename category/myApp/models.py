@@ -139,7 +139,7 @@ class MainFood(models.Model):
 
 
 
-class MainPlace(models.Model):
+class MainSpot(models.Model):
     place_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     category = models.CharField(max_length=255, blank=True, null=True)
