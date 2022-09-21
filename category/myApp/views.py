@@ -1,3 +1,8 @@
+import requests
+import json
+import os
+from pathlib import Path
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import connection
 from django.core.paginator import Paginator
@@ -10,15 +15,22 @@ from .models import FestivalImg
 from .models import Trend
 from .models import CommentFestival
 from .models import Place
+from .models import MainSpot
 from .forms import CommentForm
 from datetime import datetime
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+key_file = os.path.join(BASE_DIR, 'keys.json')
+with open(key_file) as in_file:
+    keys = json.loads(in_file.read())
+    kakao_key = keys["KAKAO_API"]
 
 # Create your views here.
 def showTable(request):
     sqlQuery = [0] * 17
     fetchResultQuery = [0] * 17
     hotspot_list = [0] * 51
+
     with connection.cursor() as cursor:
 
         sqlQuery[0] = "SELECT * FROM testdatabase.place JOIN testdatabase.top_place WHERE testdatabase.place.name = testdatabase.top_place.place AND address LIKE '부산 해운대구%' ORDER BY SCORE DESC LIMIT 3 "
@@ -93,13 +105,41 @@ def showTable(request):
                 hotspot_list[j] = ({'Name': row[1]})
                 j = j + 1
 
-        festivals = Festival.objects.all().values().order_by('-end_date')
+        sort_param = request.GET.get("sort")
+        query_param = request.GET.get("q", None)
 
-        festival_pg = Paginator(festivals, 4)
+        if query_param:
+            spots = MainSpot.objects.filter(Q(name__contains=query_param) | Q(category__contains=query_param) |
+                                         Q(address__contains=query_param) | Q(tag__contains=query_param)) \
+                .distinct().values()
+        else:
+            spots = MainSpot.objects.all().values()
+
+        if sort_param:
+            if sort_param == "name":
+                spots = spots.order_by('name')
+            elif sort_param == "rating":
+                spots = spots.order_by('-weighted_rate')
+        else:
+            spots = spots.order_by('-weighted_rate')
+
+        for s in spots:
+            s["category"] = ','.join(eval(s["category"]))
+            s["operation_time"] = eval(s["operation_time"])
+            s["tag"] = eval(s["tag"])
+            s["facility"] = eval(s["facility"])
+
+        spot_pg = Paginator(spots, per_page=8)
+        page = int(request.GET.get('page', 1))
+        spot_list = spot_pg.get_page(page)
+
+        festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
+
+        festival_pg = Paginator(festivals, 3)
         page = int(request.GET.get('page', 1))
         festival_list = festival_pg.get_page(page)
 
-    return render(request, 'myApp/index.html', {'hotspot': hotspot_list, 'festival_list': festival_list})
+    return render(request, 'myApp/index.html', {'hotspot': hotspot_list, 'festival_list': festival_list, 'spot_list': spot_list})
 
 
 def show_festival(request):
@@ -130,7 +170,6 @@ def festival_detail(request, festival_id):
 @require_POST
 def create_comment_festival(request, festival_id):
     festival_article = get_object_or_404(Festival, festival_id=festival_id)
-    # if request.method == 'POST':
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
         # comment_form.save()
@@ -175,10 +214,8 @@ def get_place_list(request):
             spots = spots.order_by('name')
         elif sort_param == "rating":
             spots = spots.order_by('-weighted_rate')
-        else:
-            spots = spots.order_by('place_id')
     else:
-        spots = spots.order_by('place_id')
+        spots = spots.order_by('-weighted_rate')
 
     for s in spots:
         s["category"] = ','.join(eval(s["category"]))
@@ -192,3 +229,41 @@ def get_place_list(request):
 
     return render(request, 'myApp/busan_offcanvas_body.html',
                   {'spot_list': spot_list, 'sort': sort_param, 'keyword': query_param})
+
+
+def get_route(request):
+    origin = request.GET.get("origin")
+    destination = request.GET.get("destination")
+    waypoints = request.GET.get("waypoints")
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'KakaoAK ' + kakao_key,
+    }
+    json_data = {
+        'priority': 'RECOMMEND',
+        'car_type': 1,
+        'origin': json.loads(origin),
+        'destination': json.loads(destination),
+        'waypoints': json.loads(waypoints),
+    }
+
+    response = requests.post('https://apis-navi.kakaomobility.com/v1/waypoints/directions', headers=headers,
+                             json=json_data)
+    response = response.json()
+
+    if response["routes"][0]["result_code"] == 0:
+
+        positions = []
+        for section in response["routes"][0]["sections"]:
+            for road in section["roads"]:
+                for position in road["vertexes"]:
+                    positions.append(position)
+
+        edited_response = {
+            "summary": response['routes'][0]['summary'],
+            "positions": positions
+        }
+        return JsonResponse(json.dumps(edited_response, ensure_ascii=False), safe=False)
+    else:
+        return JsonResponse(response, safe=False)
