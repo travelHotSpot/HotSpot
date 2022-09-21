@@ -145,7 +145,7 @@ def showTable(request):
 def show_festival(request):
     festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
 
-    festival_pg = Paginator(festivals, 10)
+    festival_pg = Paginator(festivals, 6)
     page = int(request.GET.get('page', 1))
     festival_list = festival_pg.get_page(page)
 
