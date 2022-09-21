@@ -26,4 +26,5 @@ urlpatterns = [
     path('festival/delete_comment/<int:festival_id><int:comment_id>', views.delete_comment_festival, name='delete_comment_festival'),
     path('busan/', views.busan, name='busan'),
     path('busan/getPlaceList/', views.get_place_list, name='get_place_list'),
+    path('api/getRoute/', views.get_route, name='get_route'),
 ]
