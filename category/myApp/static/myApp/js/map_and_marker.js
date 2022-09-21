@@ -3,6 +3,7 @@ var hopeListmarkers = [];
 var startingMarker;
 var endingMarker;
 var nameList = [];
+var polyline;
 
 var callbackCounter = 0;
 var infowindow = new kakao.maps.InfoWindow({zIndex:1});
@@ -349,6 +350,21 @@ function moveItem(idx, direction){
 }
 
 function findRoute(){
+    if(polyline != null){
+        polyline.setMap(null);
+        polyline = null;
+    }
+
+    if(startingMarker == null){
+        alert('출발지를 지정해주세요');
+        return;
+    }
+
+    if(endingMarker == null){
+        alert('도착지를 지정해주세요');
+        return;
+    }
+
     var origin = {"name": document.querySelector('#starting-point .info h5').innerText,
                   "x": startingMarker.getPosition().getLng(), "y": startingMarker.getPosition().getLat()
                   };
@@ -381,7 +397,7 @@ function findRoute(){
                 linePath.push(new kakao.maps.LatLng(jsonObj["positions"][i + 1], jsonObj["positions"][i]));
                 i += 2;
             }
-            var polyline = new kakao.maps.Polyline({
+            polyline = new kakao.maps.Polyline({
                 path: linePath,
                 strokeWeight: 5,
                 strokeColor: '#e834eb',
