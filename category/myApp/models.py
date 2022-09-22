@@ -110,7 +110,7 @@ class Place(models.Model):
     num_of_comments = models.IntegerField(blank=True, null=True)
     avg_rate = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
     url = models.CharField(max_length=255)
-    weighted_rate = models.DecimalField(max_digits=20, decimal_places=19, blank=True, null=True)
+    weighted_rate = models.DecimalField(max_digits=20, decimal_places=17, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -131,11 +131,32 @@ class MainFood(models.Model):
     num_of_comments = models.IntegerField(blank=True, null=True)
     avg_rate = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
     url = models.CharField(max_length=255)
-    weighted_rate = models.DecimalField(max_digits=20, decimal_places=19, blank=True, null=True)
+    weighted_rate = models.DecimalField(max_digits=20, decimal_places=17, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'main_food'
+
+
+class MainPlace(models.Model):
+    place_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    category = models.CharField(max_length=255, blank=True, null=True)
+    address = models.TextField()
+    operation_time = models.TextField(blank=True, null=True)
+    homepage = models.TextField(blank=True, null=True)
+    tel = models.CharField(max_length=255, blank=True, null=True)
+    tag = models.CharField(max_length=255, blank=True, null=True)
+    etc = models.CharField(max_length=50, blank=True, null=True)
+    facility = models.CharField(max_length=255, blank=True, null=True)
+    num_of_comments = models.IntegerField(blank=True, null=True)
+    avg_rate = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+    url = models.CharField(max_length=255)
+    weighted_rate = models.DecimalField(max_digits=20, decimal_places=17, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'main_place'
 
 
 class MainSpot(models.Model):
