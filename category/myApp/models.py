@@ -138,7 +138,7 @@ class MainFood(models.Model):
 
 
 class MainSpot(models.Model):
-    place_id = models.AutoField(primary_key=True)
+    place_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
     category = models.CharField(max_length=255, blank=True, null=True)
     address = models.TextField()
@@ -152,10 +152,12 @@ class MainSpot(models.Model):
     avg_rate = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
     url = models.CharField(max_length=255)
     weighted_rate = models.DecimalField(max_digits=20, decimal_places=19, blank=True, null=True)
+    img = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'main_spot'
+
 
 class TopFood(models.Model):
     place = models.CharField(primary_key=True, max_length=45)
