@@ -46,7 +46,7 @@
             <div class="container px-5">
                 <div class="row gx-5 justify-content-center">
                     <div class="col-lg-6">
-                        <div class="text-center my-5">
+                        <div class="text-center my-5 fadeInDown">
                             <h1 class="display-5 fw-bolder text-dark mb-2">Busan Hotspot</h1>
                             <p class="lead text-dark-50 mb-4">여행 가고 싶은 지역에 마우스를 올려보세요!<br>빅데이터를 활용한 지역별 관광지 top3입니다</p>
                         </div>
@@ -55,7 +55,7 @@
             </div>
         </header>
         <!-- Map Image-->
-        <div class="row content" style="background-color: skyblue;margin-right:0px;">
+        <div class="row content" style="background-color: skyblue;margin-right:0px;animation: fadeInDown 1s;">
             <div id="info-box"></div>
 
             <svg xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="200 0 300 730" width="500" height="600">
@@ -229,7 +229,7 @@
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="text-center mb-5">
                     <h2 class="fw-bolder">빅데이터 기반 추천 관광지입니다</h2>
-                    <p class="lead mb-0">ㅇㅇ</p>
+                    <p class="lead mb-0"></p>
                 </div>
                 {% if spot_list %}
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -237,7 +237,7 @@
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            <img class="card-img-top" src="{{ spot.img }}" alt="..." style="height:300px"/>
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">

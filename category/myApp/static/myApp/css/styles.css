@@ -11315,7 +11315,16 @@ textarea.form-control-lg {
       transform: translateZ(0);
   }
 }
-
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, -100%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translateZ(0);
+    }
+}
 #info-box {
   display: none;
   position: fixed;
@@ -11340,7 +11349,6 @@ path:hover{
     stroke: black;
     stroke-opacity: 1;
     stroke-width: 0.5;
-
 }
 .land:hover {
     fill-opacity: 1.0;
@@ -11359,5 +11367,7 @@ g {
     justify-content: center;
     top: -50px;
     height: 600px;
-
+}
+.fadeInDown {
+    animation: fadeInDown 1s;
 }
