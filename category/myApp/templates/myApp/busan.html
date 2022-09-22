@@ -83,7 +83,8 @@
                 <div class="container text-center">
                     <div class="row">
                         <div class="input-group rounded" style="border: solid 2px black">
-                            <input type="text" class="form-control" id="search-input" placeholder="관광지, 맛집 검색" style="border: 0px;">
+                            <input type="text" class="form-control" id="search-input" placeholder="관광지, 맛집 검색"
+                                   style="border: 0px;" onkeypress="if(event.keyCode == 13){loadPlace(1)}">
                             {% if keyword %}
                                 <button class="input-group-text border-0" id="search-addon" style="background-color: white;" onclick="loadPlace(1, null, '{{keyword}}')">
                             {% else %}
