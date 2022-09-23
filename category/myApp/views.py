@@ -204,15 +204,15 @@ def get_place_list(request):
     else:
         spots = spots.order_by('-weighted_rate')
 
-    for s in spots:
+    spot_pg = Paginator(spots, per_page=10)
+    page = int(request.GET.get('page', 1))
+    spot_list = spot_pg.get_page(page)
+
+    for s in spot_list:
         s["category"] = ','.join(eval(s["category"]))
         s["operation_time"] = eval(s["operation_time"])
         s["tag"] = eval(s["tag"])
         s["facility"] = eval(s["facility"])
-
-    spot_pg = Paginator(spots, per_page=10)
-    page = int(request.GET.get('page', 1))
-    spot_list = spot_pg.get_page(page)
 
     return render(request, 'myApp/busan_offcanvas_body.html',
                   {'spot_list': spot_list, 'sort': sort_param, 'keyword': query_param})
