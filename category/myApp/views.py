@@ -19,7 +19,7 @@ from .models import Place
 from .models import MainSpot
 from .forms import CommentForm
 
-
+# 카카오 API를 사용하는데 필요한 key를 keys.json에서 찾아 kakao_key에 보관
 BASE_DIR = Path(__file__).resolve().parent.parent
 key_file = os.path.join(BASE_DIR, 'keys.json')
 with open(key_file) as in_file:
@@ -128,8 +128,12 @@ def showTable(request):
     return render(request, 'myApp/index.html', {'hotspot': hotspot_list, 'festival_list': festival_list, 'spot_list': spot_list})
 
 
-
 def show_festival(request):
+    '''
+    축제 목록을 보여주는 페이지
+    @param request: pagination을 위한 page
+    @return: 해당 page에 해당하는 축제 목록
+    '''
     festivals = Festival.objects.filter(end_date__gt=datetime.now()).order_by('start_date')
 
     festival_pg = Paginator(festivals, 6)
@@ -140,6 +144,12 @@ def show_festival(request):
 
 
 def festival_detail(request, festival_id):
+    '''
+    축제 상세설명을 보여주는 페이지
+    @param request:
+    @param festival_id: 상세설명을 볼 축제의 고유번호
+    @return: 축제 정보, 사진, 댓글 폼, 댓글
+    '''
     festival = Festival.objects.get(festival_id=festival_id)
     festival_info = FestivalInfo.objects.get(festival_id=festival_id)
     festival_img = FestivalImg.objects.filter(festival_id=festival_id)
@@ -156,6 +166,12 @@ def festival_detail(request, festival_id):
 
 @require_POST
 def create_comment_festival(request, festival_id):
+    '''
+    댓글 작성
+    @param request:
+    @param festival_id: 댓글을 등록할 축제 고유번호
+    @return: 댓글 등록이 성공하면 해당 축제 상세페이지로 redirect
+    '''
     festival_article = get_object_or_404(Festival, festival_id=festival_id)
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
@@ -173,6 +189,13 @@ def create_comment_festival(request, festival_id):
 
 @require_POST
 def delete_comment_festival(request, festival_id, comment_id):
+    '''
+    댓글 삭제
+    @param request:
+    @param festival_id: 삭제할 댓글이 있는 축제 고유번호
+    @param comment_id: 댓글 번호
+    @return: 축제 상세페이지로 redirect
+    '''
     festival = get_object_or_404(Festival, festival_id=festival_id)
     comment = get_object_or_404(CommentFestival, comment_id=comment_id, festival_id=festival_id)
     if request.POST['password'] == comment.passwd:
@@ -181,11 +204,21 @@ def delete_comment_festival(request, festival_id, comment_id):
 
 
 def busan(request):
+    '''
+    지도와 검색창을 갖춘 페이지
+    @param request: pagination을 위한 page, 메인페이지에서 특정 구를 선택해 넘어오는 경우를 표시하는 gu
+    @return:
+    '''
     gu = request.GET.get("gu")
     return render(request, 'myApp/busan.html', {'gu': gu})
 
 
 def get_place_list(request):
+    '''
+    검색창을 결과를 보여주는 페이지
+    @param request: pagination을 위한 page, 정렬 방식을 담은 sort, 검색어를 담은 q
+    @return: 검색 결과와 정렬 방식, 검색어를 다시 돌려줌
+    '''
     sort_param = request.GET.get("sort")
     query_param = request.GET.get("q", None)
 
@@ -219,6 +252,11 @@ def get_place_list(request):
 
 
 def get_route(request):
+    '''
+    요청한 경로에 대한 카카오 모빌리티의 길찾기 api 결과를 돌려줌
+    @param request: 출발지 origin, 경유지 waypoints, 도착지 destination
+    @return: api 응답 결과와 경로 좌표를 json으로 return
+    '''
     origin = request.GET.get("origin")
     destination = request.GET.get("destination")
     waypoints = request.GET.get("waypoints")
@@ -240,7 +278,6 @@ def get_route(request):
     response = response.json()
 
     if response["routes"][0]["result_code"] == 0:
-
         positions = []
         for section in response["routes"][0]["sections"]:
             for road in section["roads"]:
@@ -254,4 +291,3 @@ def get_route(request):
         return JsonResponse(json.dumps(edited_response, ensure_ascii=False), safe=False)
     else:
         return JsonResponse(response, safe=False)
-
