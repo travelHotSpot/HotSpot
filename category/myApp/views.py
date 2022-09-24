@@ -213,8 +213,6 @@ def get_place_list(request):
         s["tag"] = eval(s["tag"])
         s["facility"] = eval(s["facility"])
 
-
-
     return render(request, 'myApp/busan_offcanvas_body.html',
                   {'spot_list': spot_list, 'sort': sort_param, 'keyword': query_param})
 
