@@ -148,6 +148,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+# ORM 쿼리를 보기위해 추가
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
