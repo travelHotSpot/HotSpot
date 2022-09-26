@@ -27,8 +27,11 @@ function showMarker(){
     var addrList = [];
     for(var i = 0; i < pList.length; i++){
         var addr = pList[i].innerText;
-        if (addr.search(/(우)/) != -1){
-            addr = addr.slice(0, addr.search(/(우)/) - 1);
+        if (addr.search(/\((우\))/gi) != -1){
+            addr = addr.slice(0, addr.search(/\((우\))/gi) - 1);
+        }
+        if (addr.search(/층/) != -1){
+            addr = addr.slice(0, addr.lastIndexOf(' '));
         }
         addrList.push(addr);
     }
@@ -106,8 +109,11 @@ function addHopeList(name, addr, tel){
         }
     }
 
-    if (addr.search(/(우)/) != -1){
-        addr = addr.slice(0, addr.search(/(우)/) - 1);
+    if (addr.search(/\((우\))/gi) != -1){
+        addr = addr.slice(0, addr.search(/\((우\))/gi) - 1);
+    }
+    if (addr.search(/층/) != -1){
+        addr = addr.slice(0, addr.lastIndexOf(' '));
     }
 
     var geocoder = new kakao.maps.services.Geocoder();
