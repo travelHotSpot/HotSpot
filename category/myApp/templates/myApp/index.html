@@ -35,7 +35,7 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">홈</a></li>
                         <li class="nav-item"><a class="nav-link" href="/busan">관광지</a></li>
                         <li class="nav-item"><a class="nav-link" href="/festival">축제</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">대쉬보드</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/dashboard">대시보드</a></li>
                     </ul>
                 </div>
             </div>
@@ -313,8 +313,8 @@
             item.addEventListener('mouseenter', function() {
                 $('#info-box').css('display','block');
                 document.getElementById('info-box').innerHTML=this.getAttribute("title") +
-                "<br />" + hotspot[city[this.getAttribute("title")]]["Name"]+ "<br />" + hotspot[city[this.getAttribute("title")]+1]["Name"]+
-                "<br />" + hotspot[city[this.getAttribute("title")]+2]["Name"];
+                "<br />1." + hotspot[city[this.getAttribute("title")]]["Name"]+ "<br />2." + hotspot[city[this.getAttribute("title")]+1]["Name"]+
+                "<br />3." + hotspot[city[this.getAttribute("title")]+2]["Name"];
             });
             item.addEventListener('mouseleave', function(){
                 $('#info-box').css('display','none');

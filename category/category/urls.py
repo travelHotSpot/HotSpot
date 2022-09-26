@@ -27,4 +27,5 @@ urlpatterns = [
     path('busan/', views.busan, name='busan'),
     path('busan/getPlaceList/', views.get_place_list, name='get_place_list'),
     path('api/getRoute/', views.get_route, name='get_route'),
+    path('dashboard',views.dashboard, name='dashboard')
 ]
