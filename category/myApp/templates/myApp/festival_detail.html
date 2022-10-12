@@ -289,7 +289,7 @@
                                             <div class="modal-body">
                                                 <div class="row">
                                                     <div class="col-10">
-                                                        <form method="POST" action="{% url 'delete_comment_festival' festival.festival_id comment.comment_id %}">
+                                                        <form method="POST" action="{% url 'delete_comment_festival' festival_id=festival.festival_id comment_id=comment.comment_id %}">
                                                             {% csrf_token %}
                                                             <div class="row">
                                                                 <div class="col-8">
